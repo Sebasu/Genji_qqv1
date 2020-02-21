@@ -296,7 +296,7 @@ void translateShadows(void) {
     }
 }
 
-/*void merger(void) {
+void merger(void) {
     //State[1] = {0};
     char preAccum = 0;
     char accum = 0;
@@ -464,51 +464,7 @@ void translateShadows(void) {
         preAccum = i;
     }
     accum += preAccum;
-}*/
-
-/*void sendPixel(char r, char g, char b) {
-    sendByte(g);sendByte(r);sendByte(b);sendByte(0);
-}*/
-
-/*void sendOrder(void) {
-    char i = 0;
-    for(i = 0; i < dummyCant; i++) {
-        if(dummyColor[i] == RED)
-            sendPixel(dummyValue[i],0,0);
-        else if(dummyColor[i] == GREEN)
-            sendPixel(0,dummyValue[i],0);
-        else if(dummyColor[i] == BLUE)
-            sendPixel(0,0,dummyValue[i]);
-        else if(dummyColor[i] == YELLOW)
-            sendPixel(dummyValue[i],dummyValue[i],0);
-        else if(dummyColor[i] == PURPLE)
-            sendPixel(dummyValue[i],0,dummyValue[i]);
-        else if(dummyColor[i] == CYAN)
-            sendPixel(0,dummyValue[i],dummyValue[i]);
-        else if(dummyColor[i] == WHITE)
-            sendPixel(dummyValue[i],dummyValue[i],dummyValue[i]);
-    }
-}*/
-
-/*void sendOrder2(void) {
-    char i = 0;
-    for(i = 0; i < dummyCant2; i++) {
-        if(dummyColor[i] == RED)
-            sendPixel(shadowArray[i],0,0);
-        else if(dummyColor[i] == GREEN)
-            sendPixel(0,shadowArray[i],0);
-        else if(dummyColor[i] == BLUE)
-            sendPixel(0,0,shadowArray[i]);
-        else if(dummyColor[i] == YELLOW)
-            sendPixel(shadowArray[i],shadowArray[i],0);
-        else if(dummyColor[i] == PURPLE)
-            sendPixel(shadowArray[i],0,shadowArray[i]);
-        else if(dummyColor[i] == CYAN)
-            sendPixel(0,shadowArray[i],shadowArray[i]);
-        else if(dummyColor[i] == WHITE)
-            sendPixel(shadowArray[i],shadowArray[i],shadowArray[i]);
-    }
-}*/
+}
 
 void sendDotStar(char r, char g, char b) {
     sendByte(255);sendByte(b);sendByte(g);sendByte(r);
@@ -598,21 +554,6 @@ void apply2Dummy(char out, char in) {
     dummyValue[out] = groupValue[in];
     dummyColor[out] = groupColor[in];
 }
-
-/*void sendOrderY(void) {
-    dummyValue[0] = (char)SeqVals[seqLEGS];//Leg Right
-    dummyValue[1] = (char)SeqVals[seqCORE];//Core
-    dummyValue[2] = (char)SeqVals[seqLEGS];//Leg Left
-    dummyValue[3] = (char)SeqVals[seqCRUZ2];//ShoulBRight
-    dummyValue[4] = (char)SeqVals[seqCRUZ1];//AbdRight
-    dummyValue[5] = (char)SeqVals[seqCRUZ2];//AbdLeft
-    dummyValue[6] = (char)SeqVals[seqCRUZ1];//ShoulBLeft
-    dummyValue[7] = (char)SeqVals[seqCRUZ2];//Back
-    dummyValue[8] = (char)SeqVals[seqFRONT];//ShoulFRight
-    dummyValue[9] = (char)SeqVals[seqMASK];//Mask
-    dummyValue[10] = (char)SeqVals[seqFRONT];//ShoulFLeft
-    sendOrder();
-}*/
 
 void sendOrderX(void) {
     /*apply2Dummy(0, gLegUR);//Leg Right
@@ -1161,13 +1102,6 @@ void pTMR2_ISR(void) { //500 ms steps
     //o4_Toggle();
 }
 
-/*void pRX2_ISR(void) { //Antena ESP32
-    char cha = U2RXREG;
-    //STA_Toggle();
-    UART2_Write(cha);
-    IFS1bits.U2RXIF = 0;
-}*/
-
 void pRX3_ISR(void) { //Antena HC-05, IO1 e IO3
     char cha = U3RXREG;
     if(cha == 'o')
@@ -1267,17 +1201,6 @@ int main(void) {
     
     resetAndOff(1);
     //butt3Pres(1);
-    
-    /*W_EN_SetLow();
-    W_BOOT_SetHigh();
-    W_EN_SetHigh();*/
-    
-    /*sprintf(UART2_Write,"AT\r\n");
-    sprintf(UART2_Write,"AT+GMR\r\n");
-    printf(UART2_Write,"AT+CWJAP=\"WiFi Ahorus\",\"77775522\"\r\n");
-    //printf(UART2_Write,"AT+CIPSTART=\"TCP\",\"192.168.1.104\",1500\r\n");
-    printf(UART2_Write,"AT+CIPMODE=1\r\n");
-    printf(UART2_Write,"AT+CIPSEND\r\n");*/
     
     while (1)
     {

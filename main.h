@@ -182,6 +182,83 @@ void protocol(char cha) {
 }
 ******************************************/
 
+/*void sendPixel(char r, char g, char b) {
+    sendByte(g);sendByte(r);sendByte(b);sendByte(0);
+}*/
+
+/*void sendOrder(void) {
+    char i = 0;
+    for(i = 0; i < dummyCant; i++) {
+        if(dummyColor[i] == RED)
+            sendPixel(dummyValue[i],0,0);
+        else if(dummyColor[i] == GREEN)
+            sendPixel(0,dummyValue[i],0);
+        else if(dummyColor[i] == BLUE)
+            sendPixel(0,0,dummyValue[i]);
+        else if(dummyColor[i] == YELLOW)
+            sendPixel(dummyValue[i],dummyValue[i],0);
+        else if(dummyColor[i] == PURPLE)
+            sendPixel(dummyValue[i],0,dummyValue[i]);
+        else if(dummyColor[i] == CYAN)
+            sendPixel(0,dummyValue[i],dummyValue[i]);
+        else if(dummyColor[i] == WHITE)
+            sendPixel(dummyValue[i],dummyValue[i],dummyValue[i]);
+    }
+}*/
+
+/*void sendOrder2(void) {
+    char i = 0;
+    for(i = 0; i < dummyCant2; i++) {
+        if(dummyColor[i] == RED)
+            sendPixel(shadowArray[i],0,0);
+        else if(dummyColor[i] == GREEN)
+            sendPixel(0,shadowArray[i],0);
+        else if(dummyColor[i] == BLUE)
+            sendPixel(0,0,shadowArray[i]);
+        else if(dummyColor[i] == YELLOW)
+            sendPixel(shadowArray[i],shadowArray[i],0);
+        else if(dummyColor[i] == PURPLE)
+            sendPixel(shadowArray[i],0,shadowArray[i]);
+        else if(dummyColor[i] == CYAN)
+            sendPixel(0,shadowArray[i],shadowArray[i]);
+        else if(dummyColor[i] == WHITE)
+            sendPixel(shadowArray[i],shadowArray[i],shadowArray[i]);
+    }
+}*/
+
+/*void sendOrderY(void) {
+    dummyValue[0] = (char)SeqVals[seqLEGS];//Leg Right
+    dummyValue[1] = (char)SeqVals[seqCORE];//Core
+    dummyValue[2] = (char)SeqVals[seqLEGS];//Leg Left
+    dummyValue[3] = (char)SeqVals[seqCRUZ2];//ShoulBRight
+    dummyValue[4] = (char)SeqVals[seqCRUZ1];//AbdRight
+    dummyValue[5] = (char)SeqVals[seqCRUZ2];//AbdLeft
+    dummyValue[6] = (char)SeqVals[seqCRUZ1];//ShoulBLeft
+    dummyValue[7] = (char)SeqVals[seqCRUZ2];//Back
+    dummyValue[8] = (char)SeqVals[seqFRONT];//ShoulFRight
+    dummyValue[9] = (char)SeqVals[seqMASK];//Mask
+    dummyValue[10] = (char)SeqVals[seqFRONT];//ShoulFLeft
+    sendOrder();
+}*/
+
+/*W_EN_SetLow();
+W_BOOT_SetHigh();
+W_EN_SetHigh();*/
+
+/*sprintf(UART2_Write,"AT\r\n");
+sprintf(UART2_Write,"AT+GMR\r\n");
+printf(UART2_Write,"AT+CWJAP=\"WiFi Ahorus\",\"77775522\"\r\n");
+//printf(UART2_Write,"AT+CIPSTART=\"TCP\",\"192.168.1.104\",1500\r\n");
+printf(UART2_Write,"AT+CIPMODE=1\r\n");
+printf(UART2_Write,"AT+CIPSEND\r\n");*/
+
+/*void pRX2_ISR(void) { //Antena ESP32
+    char cha = U2RXREG;
+    //STA_Toggle();
+    UART2_Write(cha);
+    IFS1bits.U2RXIF = 0;
+}*/
+
 /*void configSPI(void) {
     SSP1CON1bits.SSPEN = 0; //DisSPI
     PPSLOCK = 0x55;
