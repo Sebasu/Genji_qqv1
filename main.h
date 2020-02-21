@@ -80,10 +80,6 @@ void pTMR2_ISR(void);
 void pRX2_ISR(void);
 void pRX3_ISR(void);
 
-/*void setPWM1duty(short val1);
-void setPWM2duty(short val1);
-void setPWM3duty(short val1);*/
-
 void maskOff(void);
 void maskOn(void);
 void seqByZone_On(char num, short time);
@@ -125,8 +121,8 @@ void sendOrderDot(void);
 void musik(void);
 void merger(void);
 
-//uint16_t    writeData = 0x55AA;
-/*uint16_t    flashAddr = 0x01C0;
+/*uint16_t    writeData = 0x55AA;
+uint16_t    flashAddr = 0x01C0;
 uint16_t    Buf[ERASE_FLASH_BLOCKSIZE];
 
 void miau(void) {
@@ -239,6 +235,20 @@ void protocol(char cha) {
     dummyValue[9] = (char)SeqVals[seqMASK];//Mask
     dummyValue[10] = (char)SeqVals[seqFRONT];//ShoulFLeft
     sendOrder();
+}*/
+
+/*void sendOrderX(void) {
+    apply2Dummy(0, gLegUR);//Leg Right
+    apply2Dummy(1, gCore);//Core
+    apply2Dummy(2, gLegUL);//Leg Left
+    apply2Dummy(3, gShouldBR);//ShoulBRight
+    apply2Dummy(4, gAbsUR);//AbdRight
+    apply2Dummy(5, gAbsUL);//AbdLeft
+    apply2Dummy(6, gShouldBL);//ShoulBLeft
+    apply2Dummy(7, gBackUR);//Back
+    apply2Dummy(8, gShouldFR);//ShoulFRight
+    apply2Dummy(9, gMask);//Mask
+    apply2Dummy(10, gShouldFL);//ShoulFLeft
 }*/
 
 /*W_EN_SetLow();

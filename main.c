@@ -49,59 +49,61 @@ char dragonCrashDone = 0;
 char refriShoulderDone = 0;
 //char dummyCant = 11;
 char dummyCant = 29;
-char dotCant = 139;
+char dotCant = 122;
 char dummyValue[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 char dummyColor[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-char dotValue[139] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+char dotValue[122] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,0,0,0,0,0,0,0,0,0,0*/};
-char dotColor[139] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,0,0,
+                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
+char dotColor[122] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,0,0,0,0,0,0,0,0,0,0*/};
+                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,0,0,
+                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
 
-char State[1] = {0}; //Nup
-char Mask[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
-char Core[9] = {0,0,0,0,0,0,0,0,0};
-char ShouldFL[3] = {0,0,0};
-char ShouldFR[3] = {0,0,0};
-char ShouldDL[3] = {0,0,0};
-char ShouldDR[3] = {0,0,0};
-char ShouldBL[3] = {0,0,0};
-char ShouldBR[3] = {0,0,0};
-char NeckL[3] = {0,0,0};
-char NeckR[3] = {0,0,0};
-char NeckBL[4] = {0,0,0,0}; //NeckBL2   NeckBL3 NeckBL4	
-char NeckBR[4] = {0,0,0,0}; //NeckBR2   NeckBR3 NeckBR4
-char NeckBRcolor[4] = {0,0,0,0}; //NeckBR2   NeckBR3 NeckBR4
-char AbsUL[6] = {0,0,0,0,0,0};
-char AbsUR[6] = {0,0,0,0,0,0};
-char AbsML[6] = {0,0,0,0,0,0};
-char AbsMR[6] = {0,0,0,0,0,0};
-char AbsDL[6] = {0,0,0,0,0,0};
-char AbsDR[6] = {0,0,0,0,0,0};
-char BackUL[3] = {0,0,0};
-char BackUR[3] = {0,0,0};
-char BackUM[3] = {0,0,0};
-char BackD[3] = {0,0,0}; //Nup
-char LegUL[6] = {0,0,0,0,0,0};
-char LegUR[6] = {0,0,0,0,0,0};
-char LegDL[6] = {0,0,0,0,0,0};
-char LegDR[6] = {0,0,0,0,0,0};
-char ShoeL[7] = {0,0,0,0,0,0,0};
-char ShoeR[7] = {0,0,0,0,0,0,0};
+char State[1] = {0}; //0 (Nup)
+char Mask[12] = {0,0,0,0,0,0,0,0,0,0,0,0}; //1
+char Core[11] = {0,0,0,0,0,0,0,0,0,0,0}; //2
+char ShouldFL[3] = {0,0,0}; //3
+char ShouldFR[3] = {0,0,0}; //4
+char ShouldDL[3] = {0,0,0}; //5
+char ShouldDR[3] = {0,0,0}; //6
+char ShouldBL[3] = {0,0,0}; //7
+char ShouldBR[3] = {0,0,0}; //8
+char NeckL[3] = {0,0,0}; //9
+char NeckR[3] = {0,0,0}; //10
+char NeckBL[4] = {0,0,0,0}; //11
+char NeckBR[4] = {0,0,0,0}; //12
+char NeckBRcolor[4] = {0,0,0,0}; //NeckBR Color for Effect
+char AbsUL[4] = {0,0,0,0}; //13
+char AbsUR[4] = {0,0,0,0}; //14
+char AbsML[3] = {0,0,0}; //15
+char AbsMR[3] = {0,0,0}; //16
+char AbsDL[3] = {0,0,0}; //17
+char AbsDR[3] = {0,0,0}; //18
+char BackUL[3] = {0,0,0}; //19
+char BackUR[3] = {0,0,0}; //20
+char BackUM[3] = {0,0,0}; //21
+char BackD[3] = {0,0,0}; //22 (Nup)
+char LegUL[6] = {0,0,0,0,0,0}; //23
+char LegUR[6] = {0,0,0,0,0,0}; //24
+char LegDL[6] = {0,0,0,0,0,0}; //25
+char LegDR[6] = {0,0,0,0,0,0}; //26
+char ShoeL[7] = {0,0,0,0,0,0,0}; //27
+char ShoeR[7] = {0,0,0,0,0,0,0}; //28
+
 signed short shadowArray[21] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 signed short MaskSeq[6] = {0,0,0,0,0,0};
-char groupSize[29] = {1,12,9,3,3,3,3,3,3,3,3,4,4,6,6,6,6,6,6,3,3,3,3,6,6,6,6,7,7};
+char groupSize[29] = {1,12,11,3,3,3,3,3,3,3,3,4,4,4,4,3,3,3,3,3,3,3,3,6,6,6,6,7,7};
 char groupValue[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 char groupColor[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
 char dragonArray[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-char crashColor = 0;
+char dragonColor = 0;
 char runCrash = 0;
 char indexCrash = 0;
 short contCrash = 0;
@@ -121,91 +123,91 @@ void val2group(char group, char val) {
     char i = 0;
     for(i = 0; i < groupSize[group]; i++) {
         switch (group) {
-            case gState:
+        case gState:
             State[i] = val;
             break;
-            case gMask:
+        case gMask:
             Mask[i] = val;
             break;
-            case gCore:
+        case gCore:
             Core[i] = val;
             break;
-            case gShouldFL:
+        case gShouldFL:
             Core[i] = val;
             break;
-            case gShouldFR:
+        case gShouldFR:
             ShouldFR[i] = val;
             break;
-            case gShouldDL:
+        case gShouldDL:
             ShouldDL[i] = val;
             break;
-            case gShouldDR:
+        case gShouldDR:
             ShouldDR[i] = val;
             break;
-            case gShouldBL:
+        case gShouldBL:
             ShouldBL[i] = val;
             break;
-            case gShouldBR:
+        case gShouldBR:
             ShouldBR[i] = val;
             break;
-            case gNeckL:
+        case gNeckL:
             NeckL[i] = val;
             break;
-            case gNeckR:
+        case gNeckR:
             NeckR[i] = val;
             break;
-            case gNeckBL:
+        case gNeckBL:
             NeckBL[i] = val;
             break;
-            case gNeckBR:
+        case gNeckBR:
             NeckBR[i] = val;
             break;
-            case gAbsUL:
+        case gAbsUL:
             AbsUL[i] = val;
             break;
-            case gAbsUR:
+        case gAbsUR:
             AbsUR[i] = val;
             break;
-            case gAbsML:
+        case gAbsML:
             AbsML[i] = val;
             break;
-            case gAbsMR:
+        case gAbsMR:
             AbsMR[i] = val;
             break;
-            case gAbsDL:
+        case gAbsDL:
             AbsDL[i] = val;
             break;
-            case gAbsDR:
+        case gAbsDR:
             AbsDR[i] = val;
             break;
-            case gBackUL:
+        case gBackUL:
             BackUL[i] = val;
             break;
-            case gBackUR:
+        case gBackUR:
             BackUR[i] = val;
             break;
-            case gBackM:
+        case gBackM:
             BackUM[i] = val;
             break;
-            case gBackD:
+        case gBackD:
             BackD[i] = val;
             break;
-            case gLegUL:
+        case gLegUL:
             LegUL[i] = val;
             break;
-            case gLegUR:
+        case gLegUR:
             LegUR[i] = val;
             break;
-            case gLegDL:
+        case gLegDL:
             LegDL[i] = val;
             break;
-            case gLegDR:
+        case gLegDR:
             LegDR[i] = val;
             break;
-            case gShoeL:
+        case gShoeL:
             ShoeL[i] = val;
             break;
-            case gShoeR:
+        case gShoeR:
             ShoeR[i] = val;
             break;
         }
@@ -213,12 +215,17 @@ void val2group(char group, char val) {
     groupValue[group] = val;
 }
 
+void applyColor(char group, char color, char intensity) {
+    groupColor[group] = color;
+    val2group(group, intensity);
+}
+
 void despShadow(void) {
     if(runShadow && contTimShadow < 600) {
         if(contTimShadow < 1) {
             char i = 0;
             for(i = 0; i < 21; i++)
-                shadowArray[i] = 100;//255;
+                shadowArray[i] = 255;
         }
         subContShadow++;
         if(indexShadow < 24) {
@@ -234,22 +241,22 @@ void despShadow(void) {
             }
             if(indexShadow > 1 && indexShadow < 23) {
                 shadowArray[indexShadow - 2] += 6;
-                if(shadowArray[indexShadow - 2] > 100)//255)
-                    shadowArray[indexShadow - 2] = 100;//255;
+                if(shadowArray[indexShadow - 2] > 255)
+                    shadowArray[indexShadow - 2] = 255;
             }
             if(indexShadow > 2 && indexShadow < 24) {
                 shadowArray[indexShadow - 3] += 6;
-                if(shadowArray[indexShadow - 3] > 100)//255)
-                    shadowArray[indexShadow - 3] = 100;//255;
+                if(shadowArray[indexShadow - 3] > 255)
+                    shadowArray[indexShadow - 3] = 255;
             }
         }else {
             char i = 0;
-            for(i = 0; i < 21; i++)//For Testing
-                shadowArray[i] = 100;//255;
+            for(i = 0; i < 21; i++)
+                shadowArray[i] = 255;
             subContShadow = 0;
             indexShadow = 0;
             contTimShadow = 0;
-            //runShadow = 0;
+            runShadow = 0;
         }
         if(subContShadow >= 24) {
             indexShadow++;
@@ -493,11 +500,6 @@ void sendOrderDot(void) {
     sendDotStar(10,10,10); //One more Pixel on White???
 }
 
-void applyColor(char group, char color, char intensity) {
-    groupColor[group] = color;
-    val2group(group, intensity);
-}
-
 void dragonCrash(void) {
     if(runCrash && contCrash < 1500) {
         subContCrash++;
@@ -556,18 +558,6 @@ void apply2Dummy(char out, char in) {
 }
 
 void sendOrderX(void) {
-    /*apply2Dummy(0, gLegUR);//Leg Right
-    apply2Dummy(1, gCore);//Core
-    apply2Dummy(2, gLegUL);//Leg Left
-    apply2Dummy(3, gShouldBR);//ShoulBRight
-    apply2Dummy(4, gAbsUR);//AbdRight
-    apply2Dummy(5, gAbsUL);//AbdLeft
-    apply2Dummy(6, gShouldBL);//ShoulBLeft
-    apply2Dummy(7, gBackUR);//Back
-    apply2Dummy(8, gShouldFR);//ShoulFRight
-    apply2Dummy(9, gMask);//Mask
-    apply2Dummy(10, gShouldFL);//ShoulFLeft*/
-    
     apply2Dummy(0, gShoeR);
     apply2Dummy(1, gLegDR);
     apply2Dummy(2, gLegUR);
