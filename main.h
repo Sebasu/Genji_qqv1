@@ -251,23 +251,12 @@ void protocol(char cha) {
     apply2Dummy(10, gShouldFL);//ShoulFLeft
 }*/
 
-/*W_EN_SetLow();
-W_BOOT_SetHigh();
-W_EN_SetHigh();*/
-
 /*sprintf(UART2_Write,"AT\r\n");
 sprintf(UART2_Write,"AT+GMR\r\n");
 printf(UART2_Write,"AT+CWJAP=\"WiFi Ahorus\",\"77775522\"\r\n");
 //printf(UART2_Write,"AT+CIPSTART=\"TCP\",\"192.168.1.104\",1500\r\n");
 printf(UART2_Write,"AT+CIPMODE=1\r\n");
 printf(UART2_Write,"AT+CIPSEND\r\n");*/
-
-/*void pRX2_ISR(void) { //Antena ESP32
-    char cha = U2RXREG;
-    //STA_Toggle();
-    UART2_Write(cha);
-    IFS1bits.U2RXIF = 0;
-}*/
 
 /*void configSPI(void) {
     SSP1CON1bits.SSPEN = 0; //DisSPI

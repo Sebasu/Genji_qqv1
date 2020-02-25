@@ -49,20 +49,20 @@ char dragonCrashDone = 0;
 char refriShoulderDone = 0;
 //char dummyCant = 11;
 char dummyCant = 29;
-char dotCant = 122;
+char dotCant = 124;
 char dummyValue[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 char dummyColor[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-char dotValue[122] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+char dotValue[124] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,0,0,
+                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
-char dotColor[122] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+char dotColor[124] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,0,0,
+                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
 
 char State[1] = {0}; //0 (Nup)
@@ -93,12 +93,12 @@ char LegUL[6] = {0,0,0,0,0,0}; //23
 char LegUR[6] = {0,0,0,0,0,0}; //24
 char LegDL[6] = {0,0,0,0,0,0}; //25
 char LegDR[6] = {0,0,0,0,0,0}; //26
-char ShoeL[7] = {0,0,0,0,0,0,0}; //27
-char ShoeR[7] = {0,0,0,0,0,0,0}; //28
+char ShoeL[8] = {0,0,0,0,0,0,0,0}; //27
+char ShoeR[8] = {0,0,0,0,0,0,0,0}; //28
 
 signed short shadowArray[21] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 signed short MaskSeq[6] = {0,0,0,0,0,0};
-char groupSize[29] = {1,12,11,3,3,3,3,3,3,3,3,4,4,4,4,3,3,3,3,3,3,3,3,6,6,6,6,7,7};
+char groupSize[29] = {1,12,11,3,3,3,3,3,3,3,3,4,4,4,4,3,3,3,3,3,3,3,3,6,6,6,6,8,8};
 char groupValue[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 char groupColor[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
@@ -133,7 +133,7 @@ void val2group(char group, char val) {
             Core[i] = val;
             break;
         case gShouldFL:
-            Core[i] = val;
+            ShouldFL[i] = val;
             break;
         case gShouldFR:
             ShouldFR[i] = val;
@@ -263,7 +263,7 @@ void despShadow(void) {
             subContShadow = 0;
         }
         translateShadows();
-        sendOrderDot();
+        sendOrderX();
         /*for(char i = 0; i < 21; i++)//For Testing
             EUSART_Write(shadowArray[i]);*/
         contTimShadow++;
@@ -308,167 +308,168 @@ void merger(void) {
     char preAccum = 0;
     char accum = 0;
     char i = 0;
-    for(i = 0; i < groupSize[gMask]; i++) {
-        dotValue[i + accum] = Mask[i];
-        dotColor[i + accum] = groupColor[gMask];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gCore]; i++) {
-        dotValue[i + accum] = Core[i];
-        dotColor[i + accum] = groupColor[gCore];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gShouldFL]; i++) {
-        dotValue[i + accum] = ShouldFL[i];
-        dotColor[i + accum] = groupColor[gShouldFL];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gShouldFR]; i++) {
-        dotValue[i + accum] = ShouldFR[i];
-        dotColor[i + accum] = groupColor[gShouldFR];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gShouldDL]; i++) {
-        dotValue[i + accum] = ShouldDL[i];
-        dotColor[i + accum] = groupColor[gShouldDL];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gShouldDR]; i++) {
-        dotValue[i + accum] = ShouldDR[i];
-        dotColor[i + accum] = groupColor[gShouldDR];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gShouldBL]; i++) {
-        dotValue[i + accum] = ShouldBL[i];
-        dotColor[i + accum] = groupColor[gShouldBL];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gShouldBR]; i++) {
-        dotValue[i + accum] = ShouldBR[i];
-        dotColor[i + accum] = groupColor[gShouldBR];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gNeckL]; i++) {
-        dotValue[i + accum] = NeckL[i];
-        dotColor[i + accum] = groupColor[gNeckL];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gNeckR]; i++) {
-        dotValue[i + accum] = NeckL[i];
-        dotColor[i + accum] = groupColor[gNeckR];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gNeckBL]; i++) {
-        dotValue[i + accum] = NeckBL[i];
-        dotColor[i + accum] = groupColor[gNeckBL];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gNeckBR]; i++) {
-        dotValue[i + accum] = NeckBR[i];
-        dotColor[i + accum] = NeckBRcolor[i];//groupColor[gNeckBR];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gAbsUL]; i++) {
-        dotValue[i + accum] = AbsUL[i];
-        dotColor[i + accum] = groupColor[gAbsUL];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gAbsUR]; i++) {
-        dotValue[i + accum] = AbsUR[i];
-        dotColor[i + accum] = groupColor[gAbsUR];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gAbsML]; i++) {
-        dotValue[i + accum] = AbsML[i];
-        dotColor[i + accum] = groupColor[gAbsML];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gAbsMR]; i++) {
-        dotValue[i + accum] = AbsMR[i];
-        dotColor[i + accum] = groupColor[gAbsMR];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gAbsDL]; i++) {
-        dotValue[i + accum] = AbsDL[i];
-        dotColor[i + accum] = groupColor[gAbsDL];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gAbsDR]; i++) {
-        dotValue[i + accum] = AbsDR[i];
-        dotColor[i + accum] = groupColor[gAbsDR];
-        preAccum = i;
-    }
-    accum += preAccum;
     for(i = 0; i < groupSize[gBackUL]; i++) {
         dotValue[i + accum] = BackUL[i];
         dotColor[i + accum] = groupColor[gBackUL];
-        preAccum = i;
-    }
-    accum += preAccum;
-    for(i = 0; i < groupSize[gBackUR]; i++) {
-        dotValue[i + accum] = BackUR[i];
-        dotColor[i + accum] = groupColor[gBackUR];
-        preAccum = i;
+        preAccum = i + 1;
     }
     accum += preAccum;
     for(i = 0; i < groupSize[gBackM]; i++) {
         dotValue[i + accum] = BackUM[i];
         dotColor[i + accum] = groupColor[gBackM];
-        preAccum = i;
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gBackUR]; i++) {
+        dotValue[i + accum] = BackUR[i];
+        dotColor[i + accum] = groupColor[gBackUR];
+        preAccum = i + 1;
     }
     accum += preAccum;
     //char BackD[3] = {0,0,0}; //Nup
+    for(i = 0; i < groupSize[gShouldBR]; i++) {
+        dotValue[i + accum] = ShouldBR[i];
+        dotColor[i + accum] = groupColor[gShouldBR];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gShouldDR]; i++) {
+        dotValue[i + accum] = ShouldDR[i];
+        dotColor[i + accum] = groupColor[gShouldDR];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gShouldFR]; i++) {
+        dotValue[i + accum] = ShouldFR[i];
+        dotColor[i + accum] = groupColor[gShouldFR];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gNeckR]; i++) {
+        dotValue[i + accum] = NeckL[i];
+        dotColor[i + accum] = groupColor[gNeckR];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gNeckL]; i++) {
+        dotValue[i + accum] = NeckL[i];
+        dotColor[i + accum] = groupColor[gNeckL];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gShouldBL]; i++) {
+        dotValue[i + accum] = ShouldBL[i];
+        dotColor[i + accum] = groupColor[gShouldBL];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gShouldDL]; i++) {
+        dotValue[i + accum] = ShouldDL[i];
+        dotColor[i + accum] = groupColor[gShouldDL];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gShouldFL]; i++) {
+        dotValue[i + accum] = ShouldFL[i];
+        dotColor[i + accum] = groupColor[gShouldFL];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gCore]; i++) {
+        dotValue[i + accum] = Core[i];
+        dotColor[i + accum] = groupColor[gCore];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gAbsUL]; i++) {
+        dotValue[i + accum] = AbsUL[i];
+        dotColor[i + accum] = groupColor[gAbsUL];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gAbsUR]; i++) {
+        dotValue[i + accum] = AbsUR[i];
+        dotColor[i + accum] = groupColor[gAbsUR];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gAbsMR]; i++) {
+        dotValue[i + accum] = AbsMR[i];
+        dotColor[i + accum] = groupColor[gAbsMR];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gAbsML]; i++) {
+        dotValue[i + accum] = AbsML[i];
+        dotColor[i + accum] = groupColor[gAbsML];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gAbsDL]; i++) {
+        dotValue[i + accum] = AbsDL[i];
+        dotColor[i + accum] = groupColor[gAbsDL];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gAbsDR]; i++) {
+        dotValue[i + accum] = AbsDR[i];
+        dotColor[i + accum] = groupColor[gAbsDR];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    
+    for(i = 0; i < groupSize[gMask]; i++) {
+        dotValue[i + accum] = Mask[i];
+        dotColor[i + accum] = groupColor[gMask];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gNeckBL]; i++) {
+        dotValue[i + accum] = NeckBL[i];
+        dotColor[i + accum] = groupColor[gNeckBL];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
+    for(i = 0; i < groupSize[gNeckBR]; i++) {
+        dotValue[i + accum] = NeckBR[i];
+        dotColor[i + accum] = NeckBRcolor[i];//groupColor[gNeckBR];
+        preAccum = i + 1;
+    }
+    accum += preAccum;
     for(i = 0; i < groupSize[gLegUL]; i++) {
         dotValue[i + accum] = LegUL[i];
         dotColor[i + accum] = groupColor[gLegUL];
-        preAccum = i;
+        preAccum = i + 1;
     }
     accum += preAccum;
     for(i = 0; i < groupSize[gLegUR]; i++) {
         dotValue[i + accum] = LegUR[i];
         dotColor[i + accum] = groupColor[gLegUR];
-        preAccum = i;
+        preAccum = i + 1;
     }
     accum += preAccum;
     for(i = 0; i < groupSize[gLegDL]; i++) {
         dotValue[i + accum] = LegDL[i];
         dotColor[i + accum] = groupColor[gLegDL];
-        preAccum = i;
+        preAccum = i + 1;
     }
     accum += preAccum;
     for(i = 0; i < groupSize[gLegDR]; i++) {
         dotValue[i + accum] = LegDR[i];
         dotColor[i + accum] = groupColor[gLegDR];
-        preAccum = i;
+        preAccum = i + 1;
     }
     accum += preAccum;
     for(i = 0; i < groupSize[gShoeL]; i++) {
         dotValue[i + accum] = ShoeL[i];
         dotColor[i + accum] = groupColor[gShoeL];
-        preAccum = i;
+        preAccum = i + 1;
     }
     accum += preAccum;
     for(i = 0; i < groupSize[gShoeR]; i++) {
         dotValue[i + accum] = ShoeR[i];
         dotColor[i + accum] = groupColor[gShoeR];
-        preAccum = i;
+        preAccum = i + 1;
     }
     accum += preAccum;
 }
@@ -479,23 +480,22 @@ void sendDotStar(char r, char g, char b) {
 
 void sendOrderDot(void) {
     char i = 0;
-    for(i = 0; i < 4; i++) //sendByte(0);sendByte(0);sendByte(0);sendByte(0);
-        sendByte(0);
-    for(i = 0; i < dummyCant; i++) {
-        if(dummyColor[i] == RED)
-            sendDotStar(dummyValue[i],0,0);
-        else if(dummyColor[i] == GREEN)
-            sendDotStar(0,dummyValue[i],0);
-        else if(dummyColor[i] == BLUE)
-            sendDotStar(0,0,dummyValue[i]);
-        else if(dummyColor[i] == YELLOW)
-            sendDotStar(dummyValue[i],dummyValue[i],0);
-        else if(dummyColor[i] == PURPLE)
-            sendDotStar(dummyValue[i],0,dummyValue[i]);
-        else if(dummyColor[i] == CYAN)
-            sendDotStar(0,dummyValue[i],dummyValue[i]);
-        else if(dummyColor[i] == WHITE)
-            sendDotStar(dummyValue[i],dummyValue[i],dummyValue[i]);
+    for(i = 0; i < 4; i++) {sendByte(0);} 
+    for(i = 0; i < dotCant; i++) {
+        if(dotColor[i] == RED)
+            sendDotStar(dotValue[i],0,0);
+        else if(dotColor[i] == GREEN)
+            sendDotStar(0,dotValue[i],0);
+        else if(dotColor[i] == BLUE)
+            sendDotStar(0,0,dotValue[i]);
+        else if(dotColor[i] == YELLOW)
+            sendDotStar(dotValue[i],dotValue[i],0);
+        else if(dotColor[i] == PURPLE)
+            sendDotStar(dotValue[i],0,dotValue[i]);
+        else if(dotColor[i] == CYAN)
+            sendDotStar(0,dotValue[i],dotValue[i]);
+        else if(dotColor[i] == WHITE)
+            sendDotStar(dotValue[i],dotValue[i],dotValue[i]);
     }
     sendDotStar(10,10,10); //One more Pixel on White???
 }
@@ -558,7 +558,7 @@ void apply2Dummy(char out, char in) {
 }
 
 void sendOrderX(void) {
-    apply2Dummy(0, gShoeR);
+    /*apply2Dummy(0, gShoeR);
     apply2Dummy(1, gLegDR);
     apply2Dummy(2, gLegUR);
     apply2Dummy(3, gAbsDR);
@@ -587,8 +587,8 @@ void sendOrderX(void) {
     apply2Dummy(26, gShoeL);
     
     apply2Dummy(27, gState);
-    apply2Dummy(28, gBackD);
-    
+    apply2Dummy(28, gBackD);*/
+    merger();
     sendOrderDot();
 }
 
@@ -743,7 +743,7 @@ void execMask_Sword(void) {
 }
 
 void demoEfectOn(void) {//CallOn Timer
-    if(timDemoOn < 600) {
+    if(flagDemoOn && timDemoOn < 600) {
         timDemoOn++;
         if(!lightsOn) {
             if(timDemoOn < 260) {
@@ -890,8 +890,8 @@ void musik(void) {
         val2group(gShouldBL, valTempo);
         val2group(gShouldBR, valTempo);
         val2group(gCore, valBip2);
-        val2group(gShouldFL, valBip2);
-        val2group(gShouldFR, valBip2);
+        val2group(gShouldFL, valBip2);//?
+        val2group(gShouldFR, valBip2);//?
         val2group(gAbsUL, valBip1);
         val2group(gAbsUR, valBip1);
         val2group(gAbsML, valBip1);
@@ -904,7 +904,7 @@ void musik(void) {
 }
 
 void demoEfectOff(void) {
-    if(timDemoOff < 200) {
+    if(flagDemoOff && timDemoOff < 200) {
         timDemoOff++;
         if(timDemoOff <= 50) {
             fullBodyVal -= 5;
@@ -945,7 +945,7 @@ void seqByZone_Off(char num, short time) {
 }
 
 void SeqPresOn(void) {//CallOn Timer
-    if(timPresOn < 250) {
+    if(flagPressOn && timPresOn < 250) {
         timPresOn++;
         if(!soundASOn && timPresOn > 40/*/firstDelay/**/) {
             EUSART_Write('g'); //Sound Press On
@@ -972,7 +972,7 @@ void SeqPresOn(void) {//CallOn Timer
 }
 
 void SeqPresOff(void) {//CallOn Timer
-    if(timPresOff < 320) {
+    if(flagPressOff && timPresOff < 320) {
         timPresOff++;
         if(!soundASOff && timPresOff > delaysOff[seqLEGS]) {
             EUSART_Write('f'); //Sound Press Off
@@ -1070,7 +1070,7 @@ void pTMR1_ISR(void) { //10.4 ms steps
                     secCont++;
                     stepContDemo = 0;
                 }
-                if(secCont >= 120) {
+                if(secCont >= 30) {
                     secCont = 0;
                     stepContDemo = 0;
                     subContShadow = 0;
@@ -1086,10 +1086,39 @@ void pTMR1_ISR(void) { //10.4 ms steps
     }
 }
 
+/*char contRCV = 0;
+char contRCV2 = 0;
+char go = 0;*/
+
 void pTMR2_ISR(void) { //500 ms steps
     STA_Toggle();
+    /*char sas = 0;
+    contRCV2 = contRCV;
+    contRCV = 0;
+    for(sas = 0; sas < contRCV2; sas++) {
+        buff2[sas] = buff1[sas];
+    }
+    go = 1;*/
     //o3_Toggle();
     //o4_Toggle();
+}
+
+void pRX2_ISR(void) { //Antena ESP32
+    char cha = U2RXREG;
+    //STA_Toggle();
+    //UART2_Write(cha);
+    /*buff1[contRCV] = cha;
+    contRCV++;
+    if(contRCV > 99) {
+        contRCV2 = contRCV;
+        contRCV = 0;
+        char sas = 0;
+        for(sas = 0; sas < 100; sas++) {
+            buff2[sas] = buff1[sas];
+        }
+        go = 1;
+    }*/
+    IFS1bits.U2RXIF = 0;
 }
 
 void pRX3_ISR(void) { //Antena HC-05, IO1 e IO3
@@ -1106,6 +1135,7 @@ void pRX3_ISR(void) { //Antena HC-05, IO1 e IO3
         musikRun = 1;
     if(cha == 'Y')
         musikRun = 0;
+    //UART2_Write(cha);
     IFS1bits.U3RXIF = 0;
 }
 
@@ -1189,6 +1219,10 @@ int main(void) {
     UART3_SetRxInterruptHandler(pRX3_ISR);
     spi2_open(MASTER0_CONFIG);
     
+    /*W_EN_SetLow();
+    W_BOOT_SetHigh();
+    W_EN_SetHigh();*/
+    
     resetAndOff(1);
     //butt3Pres(1);
     
@@ -1233,6 +1267,26 @@ int main(void) {
         if(bLs2)
             waiter = 0;//__delay_ms(50);
             while(waiter < 5);
+        /*char i = 0;
+        for(i = 0; i < 64; i++) {
+            char i2 = 0;
+            for(i2 = 0; i2 < 4; i2++)
+                sendByte(0);
+            for(i2 = 0; i2 < 64; i2++) {
+                sendDotStar(0, dotValue[i2], 0);
+                dotValue[i2] = 0;
+            }
+            sendDotStar(10,10,10);
+            dotValue[i] = 255;
+            waiter = 0;//__delay_ms(50);
+            while(waiter < 10);
+        }*/
+        /*if(go) {
+            for(i = 0; i < contRCV2; i++) {
+                EUSART_Write(buff2[i]);
+            }
+            go = 0;
+        }*/
     }
     return 1; 
 }
