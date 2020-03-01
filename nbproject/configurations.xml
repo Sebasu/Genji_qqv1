@@ -72,7 +72,7 @@
         <targetDevice>PIC32MM0256GPM064</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>pk4hybrid</platformTool>
+        <platformTool>snap</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>2.30</languageToolchainVersion>
         <platform>3</platform>
@@ -318,6 +318,11 @@
         <property key="ptgSendImage" value="true"/>
         <property key="voltagevalue" value="3.25"/>
       </pk4hybrid>
+      <snap>
+        <property key="memories.programmemory.ranges" value="1d000000-1d03ffff"/>
+        <property key="programmerToGoFilePath"
+                  value="L:/MPLABXProjects/Genji_QQv1.X/debug/default/Genji_QQv1_ptg"/>
+      </snap>
     </conf>
   </confs>
 </configurationDescriptor>

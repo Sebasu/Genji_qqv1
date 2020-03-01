@@ -47,18 +47,18 @@
 #include "system.h"
 #include "tmr1.h"
 #include "tmr2.h"
-#include "uart2.h"
-#include "spi2_driver.h"
-#include "uart3.h"
-#include "drivers/spi_master.h"
 #include "interrupt_manager.h"
 #include "exceptions.h"
+#include "spi2_driver.h"
+#include "drivers/spi_master.h"
+#include "uart2.h"
+#include "uart3.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
-    CLOCK_Initialize();
     INTERRUPT_Initialize();
+    CLOCK_Initialize();
     UART2_Initialize();
     UART3_Initialize();
     TMR2_Initialize();

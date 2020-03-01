@@ -59,6 +59,50 @@
 #define gLegDR 26
 #define gShoeL 27
 #define gShoeR 28
+#define gBridge 29
+
+void waitX0ms(char X);
+void dotTest(char cantDot);
+
+void val2group(char group, char val);
+void merger(void);
+void sendOrderX(void);
+
+void dotStart(char i);
+void sendDotStar(char r, char g, char b);
+void sendOrderDot(void);
+
+void despShadow(void);
+void translateShadows(void);
+void dragonCrash(void);
+void refriShoulder(char on);
+void maskOn(void);
+void maskOff(void);
+void demoEfectOn(void);
+void musik(void);
+void demoEfectOff(void);
+void seqByZone_On(char num, short time);
+void seqByZone_Off(char num, short time);
+void SeqPresOn(void);
+void SeqPresOff(void);
+void seqApply(void);
+
+void apply2Dummy(char out, char in);
+void applyColor(char group, char color, char intensity);
+void allBodyVal(char val, char color);
+void resetAndOff(char light);
+
+void execMask_Sword(void);
+void initStop(void);
+
+void pTMR1_ISR(void);
+void pTMR2_ISR(void);
+void pRX2_ISR(void);
+void pRX3_ISR(void);
+
+void butt1Pres(char state);
+void butt2Pres(char state);
+void butt3Pres(char state);
 
 /*typedef union {
     long valDL;
@@ -70,56 +114,6 @@
         unsigned char valDd;//MostSignificant
     };
 }DATA_ITEM;*/
-
-char waiter = 0;
-
-unsigned char arraySizes[1] = {0};
-
-void pTMR1_ISR(void);
-void pTMR2_ISR(void);
-void pRX2_ISR(void);
-void pRX3_ISR(void);
-
-void maskOff(void);
-void maskOn(void);
-void seqByZone_On(char num, short time);
-void seqByZone_Off(char num, short time);
-void SeqPresOn(void);
-void SeqPresOff(void);
-void execMask_Sword(void);
-void initStop(void);
-void val2group(char group, char val);
-void despShadow(void);
-void translateShadows(void);
-void merger(void);
-//void sendPixel(char g, char r, char b);
-void sendDotStar(char g, char r, char b);
-void applyColor(char group, char color, char intensity);
-void dragonCrash(void);
-void refriShoulder(char on);
-void seqApply(void);
-void apply2Dummy(char out, char in);
-
-void demoEfectOn(void);
-void demoEfectOff(void);
-
-void allBodyVal(char val);
-void resetAndOff(char light);
-
-void butt1Pres(char state);
-void butt2Pres(char state);
-void butt3Pres(char state);
-
-void sendByte(char cha);
-void EUSART_Write(char cha);
-//void sendOrder(void);
-//void sendOrder2(void);
-void sendOrderX(void);
-//void sendOrderX2(char what);
-void sendOrderDot(void);
-
-void musik(void);
-void merger(void);
 
 /*uint16_t    writeData = 0x55AA;
 uint16_t    flashAddr = 0x01C0;
@@ -251,36 +245,49 @@ void protocol(char cha) {
     apply2Dummy(10, gShouldFL);//ShoulFLeft
 }*/
 
+/***************Talk to ESP from HC-05***********************************/
+/*char contRCV = 0;
+char contRCV2 = 0;
+char go = 0;*/
+
+/*char sas = 0;//T2 ISR (500ms)
+contRCV2 = contRCV;
+contRCV = 0;
+for(sas = 0; sas < contRCV2; sas++) {
+    buff2[sas] = buff1[sas];
+}
+go = 1;*/
+/*buff1[contRCV] = cha;//UART2 ISR
+contRCV++;
+if(contRCV > 99) {
+    contRCV2 = contRCV;
+    contRCV = 0;
+    char sas = 0;
+    for(sas = 0; sas < 100; sas++) {
+        buff2[sas] = buff1[sas];
+    }
+    go = 1;
+}*/
+//UART2_Write(cha); //UART3 ISR
+
+/*W_EN_SetLow(); //Main
+W_BOOT_SetHigh();
+W_EN_SetHigh();*/
+
+/*char i = 0;
+    if(go) {
+    for(i = 0; i < contRCV2; i++) {
+        EUSART_Write(buff2[i]);
+    }
+    go = 0;
+}*/
 /*sprintf(UART2_Write,"AT\r\n");
 sprintf(UART2_Write,"AT+GMR\r\n");
 printf(UART2_Write,"AT+CWJAP=\"WiFi Ahorus\",\"77775522\"\r\n");
 //printf(UART2_Write,"AT+CIPSTART=\"TCP\",\"192.168.1.104\",1500\r\n");
 printf(UART2_Write,"AT+CIPMODE=1\r\n");
 printf(UART2_Write,"AT+CIPSEND\r\n");*/
-
-/*void configSPI(void) {
-    SSP1CON1bits.SSPEN = 0; //DisSPI
-    PPSLOCK = 0x55;
-    PPSLOCK = 0xAA;
-    PPSLOCKbits.PPSLOCKED = 0;
-    SSPCLKPPS = 0b10011; //SCK(IN) en C3
-    SSPDATPPS = 0b10101; //SDI en C5
-    //SSPSSPPS = 0b10001; //???
-    RC3PPS = 0b10000; //SCK(OUT) en C3
-    RC4PPS = 0b10001; //SDO en C4
-    PPSLOCK = 0x55;
-    PPSLOCK = 0xAA;
-    PPSLOCKbits.PPSLOCKED = 1;
-    TRISCbits.TRISC3 = 0; //SCK
-    TRISCbits.TRISC4 = 0; //SDO
-    TRISCbits.TRISC5 = 1; //SDI
-    SSP1STATbits.SMP = 0; //MIDDLE
-    SSP1STATbits.CKE = 0; //Iddle2Active Transmit
-    SSP1CON1bits.CKP = 0; //IddleState = Low
-    SSP1CON1bits.SSPM = 0b0011; //SPI MasterClock = T2m/2
-    SSP1ADD = 0;
-    SSP1CON1bits.SSPEN = 1; //EnSPI
-}*/
+/***************Talk to ESP from HC-05***********************************/
 
 #ifdef	__cplusplus
 extern "C" {
