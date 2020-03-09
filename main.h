@@ -1,7 +1,7 @@
 // This is a guard condition so that contents of this file are not included
 // more than once.  
-#ifndef XC_HEADER_TEMPLATE_H
-#define	XC_HEADER_TEMPLATE_H
+#ifndef XC_MAIN_H
+#define	XC_MAIN_H
 
 #include "mcc_generated_files/system.h"
 #include "mcc_generated_files/pin_manager.h"
@@ -72,18 +72,27 @@ void dotStart(char i);
 void sendDotStar(char r, char g, char b);
 void sendOrderDot(void);
 
+void rstShadow(char start);
 void despShadow(void);
 void translateShadows(void);
+void rstDragon(char start);
 void dragonCrash(void);
 void refriShoulder(char on);
+void rstMaskOn(char start);
 void maskOn(void);
+void rstMaskOff(char start);
 void maskOff(void);
+void rstDemoOn(char start);
 void demoEfectOn(void);
+void rstMusik(char start);
 void musik(void);
+void rstDemoOff(char start);
 void demoEfectOff(void);
 void seqByZone_On(char num, short time);
 void seqByZone_Off(char num, short time);
+void rstPressOn(char start);
 void SeqPresOn(void);
+void rstPressOff(char start);
 void SeqPresOff(void);
 void seqApply(void);
 
@@ -300,5 +309,4 @@ extern "C" {
 }
 #endif /* __cplusplus */
 
-#endif	/* XC_HEADER_TEMPLATE_H */
-
+#endif	/* XC_MAIN_H */

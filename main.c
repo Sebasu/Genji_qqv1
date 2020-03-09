@@ -1,30 +1,70 @@
 #include "main.h"
 
-short fullBodyVal = 0;
-char run = 0;
-char runMaskOn = 0;
-char runMaskOff = 0;
-char flagPressOn = 0;
-char flagPressOff = 0;
-char flagDemoOn = 0;
-char flagDemoOff = 0;
 char bLs1 = 0;
 char bLs2 = 0;
 char bLs3 = 0;
+char modoPress_nDemo = 0;
+signed short SeqVals[6] = {0,0,0,0,0,0};
+char soundASOn = 0;
+char soundASOff = 0;
+char run = 0;
+char lightsOn = 0;
+short fullBodyVal = 0;
+
+char flagPressOn = 0;
 short timPresOn = 0;
+
+char flagPressOff = 0;
 short timPresOff = 0;
+
+char flagDemoOn = 0;
 short timDemoOn = 0;
+
+char flagDemoOff = 0;
 short timDemoOff = 0;
-char subContMaskOff = 0;
-char subContShadow = 0;
-short contTimMaskOn = 0;
-short contTimMaskOff = 0;
+
+char maskIsOn = 0;
+char runMaskOn = 0;
 short indexMaskOn = 0;
+short contTimMaskOn = 0;
+char seqMaskOn[10] = {77,0,77,128,102,51,0,102,179,255};
+signed short MaskSeq[8] = {0,0,0,0,0,0,0,0};
+
+char runMaskOff = 0;
 char indexMaskOff = 0;
-char indexShadow = 0;
+short contTimMaskOff = 0;
+char subContMaskOff = 0;
+
 char runShadow = 0;
+char indexShadow = 0;
 short contTimShadow = 0;
-/****Steps of 10.4_ms Nucleo, Mask, hombF, Cruz1, Cruz2, Parte Baja****/
+char subContShadow = 0;
+signed short shadowArray[21] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+char runCrash = 0;
+char indexCrash = 0;
+short contCrash = 0;
+char subContCrash = 0;
+char dragonColor = 0;
+char deltaCrash = 16;//17?
+signed short intensityCrash = 0;
+char dragonArray[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+char intensityArray[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+char dragonCrashDone = 0;
+
+char refriShoulderDone = 0;
+
+char musikRun = 0;
+signed short valTempo = 0;
+signed short valBip1 = 0;
+signed short valBip2 = 0;
+char stepsNote = 0;
+char noteOnTempo = 0;
+signed char noteNum = 0;
+unsigned short ritmCont = 0;
+//char indexR = 0;
+
+/********Steps of 10.4_ms Nucleo, Mask, hombF, Cruz1, Cruz2, Parte Baja********/
 short firstDelay = 152;
 short delaysOn[6] = {0,4,28,36,44,52};
 char seqDeltasOn[6] = {8,6,5,6,7,9};
@@ -32,55 +72,41 @@ char seqDeltasOn[6] = {8,6,5,6,7,9};
 short delaysOff[6] = {48,32,0,0,0,0};//short delaysOff[6] = {140,60,24,16,0};//10.4ms blocks
 char seqDeltasOff[6] = {3,5,5,6,7,9};
 short delaysDemo[6] = {0,0,0,28,36,52};
-signed short SeqVals[6] = {0,0,0,0,0,0};
-char seqMaskOn[10] = {77,0,77,128,102,51,0,102,179,255};
 /**********************************************************************/
-char modoPress_nDemo = 0;
-char lightsOn = 0;
-char maskIsOn = 0;
-char soundASOn = 0;
-char soundASOff = 0;
+
+char waiter = 0;
 unsigned long secCont = 0;
 short minCont = 0;
 char stepContDemo = 0;
 char stepContPress = 0;
-char dragonCrashDone = 0;
-char refriShoulderDone = 0;
 
-char dummyCant = 29;
+/*char dummyCant = 29;
 char dummyValue[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-char dummyColor[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+char dummyColor[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};*/
 
-char dotCant = 124;
-char dotValue[124] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+short dotCant = 128;
+char dotValue[128] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
-char dotColor[124] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                        0,0,0/*,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
+char dotColor[128] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
+                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                        0,0,0/*,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
 
-char buff1[124] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
+char groupBuff[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
-char buff2[124] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0/*,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
+char groupCant = 30;
+char groupSize[30] = {1,16,11,3,3,3,3,3,3,3,3,4,4,4,4,3,3,3,3,3,3,3,3,6,6,6,6,8,8,1};
+char groupValue[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+char groupColor[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 char State[1] = {0}; //0 (Nup)
-char Mask[12] = {0,0,0,0,0,0,0,0,0,0,0,0}; //1
+char Mask[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; //1
 char Core[11] = {0,0,0,0,0,0,0,0,0,0,0}; //2
 char ShouldFL[3] = {0,0,0}; //3
 char ShouldFR[3] = {0,0,0}; //4
@@ -110,37 +136,6 @@ char LegDR[6] = {0,0,0,0,0,0}; //26
 char ShoeL[8] = {0,0,0,0,0,0,0,0}; //27
 char ShoeR[8] = {0,0,0,0,0,0,0,0}; //28
 char Bridge[1] = {0}; //29
-
-//char groupCant = 30;
-char groupSize[30] = {1,12,11,3,3,3,3,3,3,3,3,4,4,4,4,3,3,3,3,3,3,3,3,6,6,6,6,8,8,1};
-char groupValue[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-char groupColor[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-
-signed short shadowArray[21] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-signed short MaskSeq[6] = {0,0,0,0,0,0};
-char dragonArray[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-char dragonColor = 0;
-
-char runCrash = 0;
-char indexCrash = 0;
-short contCrash = 0;
-char subContCrash = 0;
-signed short intensityCrash = 0;
-char deltaCrash = 16;//17?
-
-char musikRun = 0;
-unsigned short ritmCont = 0;
-char indexR = 0;
-signed short valTempo = 0;
-signed short valBip1 = 0;
-signed short valBip2 = 0;
-char stepsNote = 0;
-char noteOnTempo = 0;
-signed char noteNum = 0;
-
-char waiter = 0;
-
-char groupBuff[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 /************Management*******************************/
 void valfromGroup(char groupID) {
@@ -353,30 +348,30 @@ char mergeGroup(char groupID, char accum) {
 }
 
 void merger(void) {
-    char preAccum = 0;
-    char accum = 0;
+    short preAccum = 0;
+    short accum = 0;
     char i = 0;
-    accum = mergeGroup(gState, accum);
-    accum = mergeGroup(gBridge, accum);
-    accum = mergeGroup(gBackUL, accum);
-    /*for(i = 0; i < groupSize[gBackUL]; i++) {
-        dotValue[i + accum] = BackUL[i];
-        dotColor[i + accum] = groupColor[gBackUL];
-    }
-    accum += groupSize[gBackUL];*/
+    //accum = mergeGroup(gState, accum);
+    //accum = mergeGroup(gBridge, accum);
+    //accum = mergeGroup(gBackD, accum); //Nup
     accum = mergeGroup(gBackM, accum);
     /*for(i = 0; i < groupSize[gBackM]; i++) {
         dotValue[i + accum] = BackUM[i];
         dotColor[i + accum] = groupColor[gBackM];
     }
     accum += groupSize[gBackM];*/
+    accum = mergeGroup(gBackUL, accum);
+    /*for(i = 0; i < groupSize[gBackUL]; i++) {
+        dotValue[i + accum] = BackUL[i];
+        dotColor[i + accum] = groupColor[gBackUL];
+    }
+    accum += groupSize[gBackUL];*/
     accum = mergeGroup(gBackUR, accum);
     /*for(i = 0; i < groupSize[gBackUR]; i++) {
         dotValue[i + accum] = BackUR[i];
         dotColor[i + accum] = groupColor[gBackUR];
     }
     accum += groupSize[gBackUR];*/
-    //accum = mergeGroup(gBackD, accum); //Nup
     accum = mergeGroup(gShouldBR, accum);
     /*for(i = 0; i < groupSize[gShouldBR]; i++) {
         dotValue[i + accum] = ShouldBR[i];
@@ -401,6 +396,25 @@ void merger(void) {
     /*for(i = 0; i < groupSize[gNeckR]; i++) {
         dotValue[i + accum] = NeckL[i];
         dotColor[i + accum] = groupColor[gNeckR];
+        preAccum = i + 1;
+    }
+    accum += preAccum;*/
+    for(i = 0; i < groupSize[gNeckBR]; i++) { //accum = mergeGroup(gNeckBR, accum);
+        dotValue[i + accum] = NeckBR[i];
+        dotColor[i + accum] = NeckBRcolor[i];//groupColor[gNeckBR];
+    }
+    accum += groupSize[gNeckBR];
+    accum = mergeGroup(gMask, accum);
+    /*for(i = 0; i < groupSize[gMask]; i++) {
+        dotValue[i + accum] = Mask[i];
+        dotColor[i + accum] = groupColor[gMask];
+        preAccum = i + 1;
+    }
+    accum += preAccum;*/
+    accum = mergeGroup(gNeckBL, accum);
+    /*for(i = 0; i < groupSize[gNeckBL]; i++) {
+        dotValue[i + accum] = NeckBL[i];
+        dotColor[i + accum] = groupColor[gNeckBL];
         preAccum = i + 1;
     }
     accum += preAccum;*/
@@ -481,26 +495,6 @@ void merger(void) {
         preAccum = i + 1;
     }
     accum += preAccum;*/
-    
-    accum = mergeGroup(gMask, accum);
-    /*for(i = 0; i < groupSize[gMask]; i++) {
-        dotValue[i + accum] = Mask[i];
-        dotColor[i + accum] = groupColor[gMask];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
-    accum = mergeGroup(gNeckBL, accum);
-    /*for(i = 0; i < groupSize[gNeckBL]; i++) {
-        dotValue[i + accum] = NeckBL[i];
-        dotColor[i + accum] = groupColor[gNeckBL];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
-    for(i = 0; i < groupSize[gNeckBR]; i++) { //accum = mergeGroup(gNeckBR, accum);
-        dotValue[i + accum] = NeckBR[i];
-        dotColor[i + accum] = NeckBRcolor[i];//groupColor[gNeckBR];
-    }
-    accum += groupSize[gNeckBR];
     accum = mergeGroup(gLegUL, accum);
     /*for(i = 0; i < groupSize[gLegUL]; i++) {
         dotValue[i + accum] = LegUL[i];
@@ -577,7 +571,7 @@ void sendOrderX(void) {
     apply2Dummy(27, gState);
     apply2Dummy(28, gBackD);*/
     
-    applyColor(gBridge, GREEN, 0);
+    //applyColor(gBridge, GREEN, 0);
     merger();
     sendOrderDot();
 }
@@ -595,7 +589,7 @@ void sendDotStar(char r, char g, char b) {
 }
 
 void sendOrderDot(void) {
-    char i = 0;
+    short i = 0;
     dotStart(i);
     for(i = 0; i < dotCant; i++) {
         if(dotColor[i] == RED)
@@ -618,6 +612,13 @@ void sendOrderDot(void) {
 /************DotStar Drivers*******************************/
 
 /************Light Effects*********************************/
+void rstShadow(char start) {
+    subContShadow = 0;
+    indexShadow = 0;
+    contTimShadow = 0;
+    runShadow = start;
+}
+
 void despShadow(void) {
     if(runShadow && contTimShadow < 600) {
         if(contTimShadow < 1) {
@@ -651,10 +652,7 @@ void despShadow(void) {
             char i = 0;
             for(i = 0; i < 21; i++)
                 shadowArray[i] = 255;
-            subContShadow = 0;
-            indexShadow = 0;
-            contTimShadow = 0;
-            runShadow = 0;
+            rstShadow(0);
         }
         if(subContShadow >= 24) {
             indexShadow++;
@@ -699,6 +697,17 @@ void translateShadows(void) {
     }
 }
 
+void rstDragon(char start) {
+    char i = 0;
+    for(i =0; i < 15; i++)
+        intensityArray[i] = 255;
+    intensityCrash = 255;
+    subContCrash = 0;
+    indexCrash = 0;
+    contCrash = 0;
+    runCrash = start;
+}
+
 void dragonCrash(void) {
     if(runCrash && contCrash < 1500) {
         subContCrash++;
@@ -714,6 +723,7 @@ void dragonCrash(void) {
                 if(intensityCrash > 255)
                     intensityCrash = 255;
             }
+            intensityArray[indexCrash] = intensityCrash;
         }else if(indexCrash < 18){
             //La lala lala
         }else if(indexCrash < 33){
@@ -728,33 +738,31 @@ void dragonCrash(void) {
                 if(intensityCrash > 255)
                     intensityCrash = 255;
             }
+            intensityArray[32 - indexCrash] = intensityCrash;
         }else {
-            subContCrash = 0;
-            indexCrash = 0;
-            contCrash = 0;
+            rstDragon(0);
             dragonCrashDone = 1;
-            runCrash = 0; 
         }
         if(subContCrash >= 32) {
             indexCrash++;
             intensityCrash = 255;
             subContCrash = 0;
         }
-        applyColor(gShouldDR, dragonArray[0], 255);
-        applyColor(gShouldFR, dragonArray[1], 255);
-        applyColor(gShouldBR, dragonArray[2], 255);
-        applyColor(gNeckR, dragonArray[3], 255);
-        applyColor(gAbsUR, dragonArray[4], 255);
-        applyColor(gBackUR, dragonArray[5], 255);
-        NeckBR[3] = 255; NeckBRcolor[3] = dragonArray[6];
-        applyColor(gAbsMR, dragonArray[7], 255);
-        NeckBR[2] = 255; NeckBRcolor[2] = dragonArray[8];
-        applyColor(gAbsDR, dragonArray[9], 255);
-        NeckBR[1] = 255; NeckBRcolor[1] = dragonArray[10];
-        applyColor(gLegUR, dragonArray[11], 255);
-        NeckBR[0] = 255; NeckBRcolor[0] = dragonArray[12];
-        applyColor(gLegDR, dragonArray[13], 255);
-        applyColor(gShoeR, dragonArray[14], 255);
+        applyColor(gShouldDR, dragonArray[0], intensityArray[0]);
+        applyColor(gShouldFR, dragonArray[1], intensityArray[1]);
+        applyColor(gShouldBR, dragonArray[2], intensityArray[2]);
+        applyColor(gNeckR, dragonArray[3], intensityArray[3]);
+        applyColor(gAbsUR, dragonArray[4], intensityArray[4]);
+        applyColor(gBackUR, dragonArray[5], intensityArray[5]);
+        NeckBR[0] = intensityArray[6]; NeckBRcolor[0] = dragonArray[6];
+        applyColor(gAbsMR, dragonArray[7], intensityArray[7]);
+        NeckBR[1] = intensityArray[8]; NeckBRcolor[1] = dragonArray[8];
+        applyColor(gAbsDR, dragonArray[9], intensityArray[9]);
+        NeckBR[2] = intensityArray[10]; NeckBRcolor[2] = dragonArray[10];
+        applyColor(gLegUR, dragonArray[11], intensityArray[11]);
+        NeckBR[3] = intensityArray[12]; NeckBRcolor[3] = dragonArray[12];
+        applyColor(gLegDR, dragonArray[13], intensityArray[13]);
+        applyColor(gShoeR, dragonArray[14], intensityArray[14]);
         sendOrderX();
         contCrash++;
     }
@@ -772,9 +780,15 @@ void refriShoulder(char on) {
     applyColor(gShouldFR, col, 255);
 }
 
+void rstMaskOn(char start) {
+    indexMaskOn = 0;
+    contTimMaskOn = 0;
+    runMaskOn = start;
+}
+
 void maskOn(void) {//CallOn Timer
     if(runMaskOn && contTimMaskOn < 60) {
-        contTimMaskOn ++;
+        contTimMaskOn++;
         if(contTimMaskOn == (short)4*(indexMaskOn + 1)) {
             //SeqVals[seqMASK] = seqMaskOn[indexMaskOn];
             val2group(gMask, seqMaskOn[indexMaskOn]);
@@ -782,26 +796,31 @@ void maskOn(void) {//CallOn Timer
             sendOrderX();
             if(indexMaskOn >= 10) {
                 maskIsOn = 1;
-                indexMaskOn = 0;
-                contTimMaskOn = 0;
-                runMaskOn = 0;
+                rstMaskOn(0);
             }
         }
     }
 }
 
+void rstMaskOff(char start) {
+    contTimMaskOff = 0;
+    subContMaskOff = 0;
+    indexMaskOff = 0;
+    runMaskOff = start;
+}
+
 void maskOff(void) {
-    if(runMaskOff && contTimMaskOff < 100) {
+    if(runMaskOff && contTimMaskOff < 130) {
         if(contTimMaskOff < 1) {
             char i = 0;
-            for(i = 0; i < 6; i++)
+            for(i = 0; i < 8; i++)
                 MaskSeq[i] = 255;
         }
         subContMaskOff++;
-        if(indexMaskOff < 7) {
+        if(indexMaskOff < 9) {
             /*for(char i = 0; i < 12; i++)
                 Mask[i] = 255;*/
-            if(indexMaskOff < 6) {
+            if(indexMaskOff < 8) {
                 MaskSeq[indexMaskOff] -= 16;
                 if(MaskSeq[indexMaskOff] < 0)
                     MaskSeq[indexMaskOff] = 0;
@@ -821,24 +840,21 @@ void maskOff(void) {
                 if(MaskSeq[indexMaskOff-3] > 255)
                     MaskSeq[indexMaskOff-3] = 255; 
             }
-        }else if(indexMaskOff < 12) {
-            if(indexMaskOff < 11) {
-                MaskSeq[10-indexMaskOff] -= 16;
-                if(MaskSeq[10-indexMaskOff] < 0)
-                    MaskSeq[10-indexMaskOff] = 0;
+        }else if(indexMaskOff < 16) {
+            if(indexMaskOff < 15) {
+                MaskSeq[14-indexMaskOff] -= 16;
+                if(MaskSeq[14-indexMaskOff] < 0)
+                    MaskSeq[14-indexMaskOff] = 0;
             }
-            MaskSeq[11-indexMaskOff] -= 16;
-            if(MaskSeq[11-indexMaskOff] < 0)
-                MaskSeq[11-indexMaskOff] = 0;
+            MaskSeq[15-indexMaskOff] -= 16;
+            if(MaskSeq[15-indexMaskOff] < 0)
+                MaskSeq[15-indexMaskOff] = 0;
         }else {
             char i = 0;
             for(i = 0; i < 6; i++)
                 MaskSeq[i] = 0;
             maskIsOn = 0;
-            runMaskOff = 0;
-            contTimMaskOff = 0;
-            subContMaskOff = 0;
-            indexMaskOff = 0;
+            rstMaskOff(0);
             /*for(char i = 0; i < 12; i++)
                 Mask[i] = 0;
             //SeqVals[seqMASK] = 0;*/
@@ -860,33 +876,40 @@ void maskOff(void) {
     }
 }
 
+void rstDemoOn(char start) {
+    timDemoOn = 0;
+    flagDemoOn = start;
+}
+
 void demoEfectOn(void) {//CallOn Timer
-    if(flagDemoOn && timDemoOn < 600) {
+    if(timDemoOn < 600) {
         timDemoOn++;
         if(!lightsOn) {
             if(timDemoOn < 260) {
-                fullBodyVal += 1;//8;
+                fullBodyVal += 1;
                 if(fullBodyVal >= 255) {
                     fullBodyVal = 255;
-                    timDemoOn = 0;
                     lightsOn = 1;
-                    UART3_Write('z');
                 }
                 allBodyVal((char)fullBodyVal, GREEN);
                 sendOrderX();
             }
         }else {
-            if(!musikRun) {
-                ritmCont = 0;
-                indexR = 0;
-                noteNum = -5;
-                stepsNote = 0;
-                noteOnTempo = 0;
-                musikRun = 1;
-                flagDemoOn = 0;
-            }
+            rstDemoOn(0);
+            UART3_Write('z');
+            if(!musikRun)
+                rstMusik(1);
         }
     }
+}
+
+void rstMusik(char start) {
+    ritmCont = 0;
+    //indexR = 0;
+    noteNum = -5;
+    stepsNote = 0;
+    noteOnTempo = 0;
+    musikRun = start;
 }
 
 void musik(void) {
@@ -982,12 +1005,7 @@ void musik(void) {
             if(valBip1 > 255) {
                 valBip1 = 255;
                 valBip2 = 255;
-                ritmCont = 0;
-                indexR = 0;
-                noteNum = -5;
-                stepsNote = 0;
-                noteOnTempo = 0;
-                musikRun = 0;
+                rstMusik(0);
             }
         }
         if(musikRun && stepsNote == 13) {
@@ -1021,8 +1039,13 @@ void musik(void) {
     }
 }
 
+void rstDemoOff(char start) {
+    timDemoOff = 0;
+    flagDemoOff = start;
+}
+
 void demoEfectOff(void) {
-    if(flagDemoOff && timDemoOff < 200) {
+    if(timDemoOff < 200) {
         timDemoOff++;
         if(timDemoOff <= 50) {
             fullBodyVal -= 5;
@@ -1062,6 +1085,11 @@ void seqByZone_Off(char num, short time) {
     }
 }
 
+void rstPressOn(char start) {
+    timPresOn = 0;
+    flagPressOn = start;
+}
+
 void SeqPresOn(void) {//CallOn Timer
     if(flagPressOn && timPresOn < 250) {
         timPresOn++;
@@ -1082,11 +1110,16 @@ void SeqPresOn(void) {//CallOn Timer
             maskIsOn = 1;
             lightsOn = 1;
             fullBodyVal = 255;
-            flagPressOn = 0;
+            rstPressOn(0);
         }
         seqApply();
         sendOrderX();
     }
+}
+
+void rstPressOff(char start) {
+    timPresOff = 0;
+    flagPressOff = start;
 }
 
 void SeqPresOff(void) {//CallOn Timer
@@ -1148,10 +1181,10 @@ void seqApply(void) {
 /************Light Effects*********************************/
 
 /************Light Resources*********************************/
-void apply2Dummy(char out, char in) {
+/*void apply2Dummy(char out, char in) {
     dummyValue[out] = groupValue[in];
     dummyColor[out] = groupColor[in];
-}
+}*/
 
 void applyColor(char group, char color, char intensity) {
     groupColor[group] = color;
@@ -1160,7 +1193,7 @@ void applyColor(char group, char color, char intensity) {
 
 void allBodyVal(char val, char color) {
     char i = 0;
-    for(i = 0; i < 29; i++)
+    for(i = 0; i < 30; i++)
         applyColor(i, color, val);
 }
 
@@ -1169,75 +1202,57 @@ void resetAndOff(char light) {
     soundASOff = 0;
     maskIsOn = 0;
     lightsOn = 0;
-    flagPressOn = 0;
-    flagPressOff = 0;
-    flagDemoOn = 0;
-    flagDemoOff = 0;
-    runMaskOn = 0;
-    runMaskOff = 0;
-    runShadow = 0;
-    musikRun = 0;
-    subContShadow = 0;
-    indexShadow = 0;
-    contTimShadow = 0;
+    rstPressOn(0);
+    rstPressOff(0);
+    rstDemoOn(0);
+    rstDemoOff(0);
+    rstMaskOn(0);
+    rstMaskOff(0);
+    rstShadow(0);
+    rstDragon(0);
+    rstMusik(0);
     secCont = 0;
     stepContDemo = 0;
+    stepContPress = 0;
     dragonCrashDone = 0;
     refriShoulderDone = 0;
-    stepContPress = 0;
-    subContCrash = 0;
-    indexCrash = 0;
-    contCrash = 0;
-    dragonCrashDone = 0;
-    runCrash = 0;
-    applyColor(gBridge, GREEN, 0);
+    //applyColor(gBridge, GREEN, 0);
     run = 0;
     if(light) {
         fullBodyVal = 0;
         allBodyVal(0, GREEN);
-        sendOrderX();
     }
+    sendOrderX();
 }
 /************Light Resources*********************************/
 
 void execMask_Sword(void) {
     if(modoPress_nDemo) {
         if(lightsOn) {
-            indexMaskOn = 0;
-            contTimMaskOn = 0;
-            runMaskOn = !maskIsOn;
-            if(maskIsOn) {//mascara activa
-                indexMaskOff = 0;
-                contTimMaskOff = 0;
-                runMaskOff = 1;
-            }
+            if(maskIsOn)
+                rstMaskOff(1);
+            else
+                rstMaskOn(1);
         }
     }else
         UART3_Write('s');//Demo Sonido Sword en Celular
 }
 
 void initStop(void) {
-    if(run) {
-        if(modoPress_nDemo) {
-            flagPressOn = 0;
-            flagPressOff = 1;
-            timPresOff = 0;
+    if(modoPress_nDemo) {
+        rstPressOn(!run);
+        rstPressOff(run);
+        if(run) {
             lightsOn = 0;
             soundASOn = 0;
-        }
-    }else {
-        if(modoPress_nDemo) {
-            flagPressOff = 0;
-            flagPressOn = 1;
-            timPresOn = 0;
+        }else
             soundASOff = 0;
-        }
+    }else {
+        if(!flagDemoOn && !musikRun)
+            rstDemoOn(1);
+    }
+    if(!run)
         run = 1;
-    }
-    if(!modoPress_nDemo && !flagDemoOn && !musikRun) {
-        timDemoOn = 0;
-        flagDemoOn = 1;
-    }
 }
 
 /************Interruptions*******************************/
@@ -1262,12 +1277,8 @@ void pTMR1_ISR(void) { //10.4 ms steps
                 stepContPress = 0;
             }
             if(!dragonCrashDone) {
-                if(secCont == 50) {
-                    subContCrash = 0;
-                    indexCrash = 0;
-                    contCrash = 0;
-                    intensityCrash = 255;
-                    runCrash = 1;
+                if(secCont == 15) {
+                    rstDragon(1);
                 }
                 dragonCrash();
             }
@@ -1288,8 +1299,7 @@ void pTMR1_ISR(void) { //10.4 ms steps
                 }
             }
             sendOrderX();
-        }
-        if(!modoPress_nDemo) {
+        }else {
             if(lightsOn && !runShadow) {
                 stepContDemo++;
                 if(stepContDemo >= 96) {//96 = 1 sec
@@ -1299,10 +1309,7 @@ void pTMR1_ISR(void) { //10.4 ms steps
                 if(secCont >= 30) {
                     secCont = 0;
                     stepContDemo = 0;
-                    subContShadow = 0;
-                    contTimShadow = 0;
-                    indexShadow = 0;
-                    runShadow = 1;
+                    rstShadow(1);
                 }
             }
             if(!musikRun)
@@ -1335,10 +1342,6 @@ void pRX3_ISR(void) { //Antena HC-05, IO1 e IO3
         butt1Pres(0);
     else if(cha == 'b')
         butt2Pres(0);
-    if(cha == 'W')
-        musikRun = 1;
-    if(cha == 'Y')
-        musikRun = 0;
     IFS1bits.U3RXIF = 0;
 }
 /************Interruptions*******************************/
@@ -1358,9 +1361,8 @@ void butt3Pres(char state) {
         modoPress_nDemo = 1;
         if(lightsOn) {
             resetAndOff(0);
-            timDemoOff = 0;
-            flagDemoOff = 1;
-            musikRun = 0;
+            rstDemoOff(1);
+            rstMusik(0);
             run = 1;
             UART3_Write('f'); //Sound Press Off
         }else
@@ -1397,7 +1399,7 @@ void dotTest(char cantDot) {
 int main(void) {
     SYSTEM_Initialize(); // initialize the device
     TMR1_SetInterruptHandler(pTMR1_ISR); //10.4ms Steps
-    TMR2_SetInterruptHandler(pTMR2_ISR); //BlinkLED
+    TMR2_SetInterruptHandler(pTMR2_ISR); //BlinkLED (500 ms)
 
     //UART2_SetRxInterruptHandler(pRX2_ISR);
     UART3_SetRxInterruptHandler(pRX3_ISR);
@@ -1407,8 +1409,8 @@ int main(void) {
     W_BOOT_SetHigh();
     W_EN_SetHigh();*/
     
+    butt3Pres(!in3_GetValue());//Check Switch State
     resetAndOff(1);
-    //butt3Pres(1);
     
     while (1)
     {
@@ -1447,7 +1449,7 @@ int main(void) {
             waitX0ms(5);
         if(bLs2)
             waitX0ms(5);
-        //dotTest(64);
+        //dotTest(71);
     }
     return 1; 
 }
