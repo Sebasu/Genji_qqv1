@@ -29,6 +29,8 @@
 #define PURPLE 4
 #define CYAN 8
 #define WHITE 10
+#define DRAGON 20
+#define DRAGON2 21
 
 #define gState 0
 #define gMask 1
@@ -75,6 +77,11 @@ void sendOrderDot(void);
 void rstShadow(char start);
 void despShadow(void);
 void translateShadows(void);
+void crashOn1(void);
+void crashOff1(void);
+void crashOn2(void);
+void crashOff2(void);
+void crashOff3(void);
 void rstDragon(char start);
 void dragonCrash(void);
 void refriShoulder(char on);
@@ -96,8 +103,9 @@ void rstPressOff(char start);
 void SeqPresOff(void);
 void seqApply(void);
 
-void apply2Dummy(char out, char in);
+//void apply2Dummy(char out, char in);
 void applyColor(char group, char color, char intensity);
+void rstSeq(void);
 void allBodyVal(char val, char color);
 void resetAndOff(char light);
 

@@ -9,47 +9,48 @@ char soundASOn = 0;
 char soundASOff = 0;
 char run = 0;
 char lightsOn = 0;
-short fullBodyVal = 0;
+signed short fullBodyVal = 0;
 
 char flagPressOn = 0;
-short timPresOn = 0;
+unsigned short timPresOn = 0;
 
 char flagPressOff = 0;
-short timPresOff = 0;
+unsigned short timPresOff = 0;
 
 char flagDemoOn = 0;
-short timDemoOn = 0;
+unsigned short timDemoOn = 0;
 
 char flagDemoOff = 0;
-short timDemoOff = 0;
+unsigned short timDemoOff = 0;
 
 char maskIsOn = 0;
-char runMaskOn = 0;
-short indexMaskOn = 0;
-short contTimMaskOn = 0;
-char seqMaskOn[10] = {77,0,77,128,102,51,0,102,179,255};
+unsigned char runMaskOn = 0;
+unsigned short indexMaskOn = 0;
+unsigned short contTimMaskOn = 0;
+unsigned char seqMaskOn[10] = {77,0,77,128,102,51,0,102,179,255};
 signed short MaskSeq[8] = {0,0,0,0,0,0,0,0};
 
 char runMaskOff = 0;
-char indexMaskOff = 0;
-short contTimMaskOff = 0;
-char subContMaskOff = 0;
+unsigned char indexMaskOff = 0;
+unsigned short contTimMaskOff = 0;
+unsigned char subContMaskOff = 0;
 
 char runShadow = 0;
-char indexShadow = 0;
-short contTimShadow = 0;
-char subContShadow = 0;
+unsigned char indexShadow = 0;
+unsigned short contTimShadow = 0;
+unsigned char subContShadow = 0;
 signed short shadowArray[21] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 char runCrash = 0;
-char indexCrash = 0;
-short contCrash = 0;
-char subContCrash = 0;
-char dragonColor = 0;
-char deltaCrash = 16;//17?
+unsigned char indexCrash = 0;
+unsigned short contCrash = 0;
+unsigned char subContCrash = 0;
+unsigned char dragonColor = 0;
+unsigned char deltaCrash = 16;//17?
 signed short intensityCrash = 0;
-char dragonArray[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-char intensityArray[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+signed short intensityCrash2 = 0;
+unsigned char dragonArray[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+unsigned char intensityArray[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 char dragonCrashDone = 0;
 
 char refriShoulderDone = 0;
@@ -58,84 +59,83 @@ char musikRun = 0;
 signed short valTempo = 0;
 signed short valBip1 = 0;
 signed short valBip2 = 0;
-char stepsNote = 0;
-char noteOnTempo = 0;
+unsigned char stepsNote = 0;
+unsigned char noteOnTempo = 0;
 signed char noteNum = 0;
 unsigned short ritmCont = 0;
-//char indexR = 0;
 
 /********Steps of 10.4_ms Nucleo, Mask, hombF, Cruz1, Cruz2, Parte Baja********/
-short firstDelay = 152;
-short delaysOn[6] = {0,4,28,36,44,52};
-char seqDeltasOn[6] = {8,6,5,6,7,9};
+unsigned short firstDelay = 152;
+unsigned short delaysOn[6] = {0,4,28,36,44,52};
+unsigned char seqDeltasOn[6] = {8,6,5,6,7,9};
 //char durations[6] = {32,44,52,44,36,28};
-short delaysOff[6] = {48,32,0,0,0,0};//short delaysOff[6] = {140,60,24,16,0};//10.4ms blocks
-char seqDeltasOff[6] = {3,5,5,6,7,9};
-short delaysDemo[6] = {0,0,0,28,36,52};
+unsigned short delaysOff[6] = {48,32,0,0,0,0};//short delaysOff[6] = {140,60,24,16,0};//10.4ms blocks
+unsigned char seqDeltasOff[6] = {3,5,5,6,7,9};
+unsigned short delaysDemo[6] = {0,0,0,28,36,52};
 /**********************************************************************/
 
-char waiter = 0;
+unsigned char waiter = 0;
 unsigned long secCont = 0;
-short minCont = 0;
-char stepContDemo = 0;
-char stepContPress = 0;
+unsigned short minCont = 0;
+unsigned char stepContDemo = 0;
+unsigned char stepContPress = 0;
 
 /*char dummyCant = 29;
 char dummyValue[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 char dummyColor[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};*/
 
-short dotCant = 128;
-char dotValue[128] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+unsigned short dotCant = 128;
+unsigned char dotValue[128] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0/*,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
-char dotColor[128] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+unsigned char dotColor[128] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
                         0,0,0/*,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
 
-char groupBuff[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+unsigned char groupBuff[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
-char groupCant = 30;
-char groupSize[30] = {1,16,11,3,3,3,3,3,3,3,3,4,4,4,4,3,3,3,3,3,3,3,3,6,6,6,6,8,8,1};
-char groupValue[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-char groupColor[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+unsigned char groupCant = 30;
+unsigned char groupSize[30] = {1,16,11,3,3,3,3,3,3,3,3,4,4,4,4,3,3,3,3,3,3,3,3,6,6,6,6,8,8,1};
+unsigned char groupValue[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+unsigned char groupColor[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
-char State[1] = {0}; //0 (Nup)
-char Mask[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; //1
-char Core[11] = {0,0,0,0,0,0,0,0,0,0,0}; //2
-char ShouldFL[3] = {0,0,0}; //3
-char ShouldFR[3] = {0,0,0}; //4
-char ShouldDL[3] = {0,0,0}; //5
-char ShouldDR[3] = {0,0,0}; //6
-char ShouldBL[3] = {0,0,0}; //7
-char ShouldBR[3] = {0,0,0}; //8
-char NeckL[3] = {0,0,0}; //9
-char NeckR[3] = {0,0,0}; //10
-char NeckBL[4] = {0,0,0,0}; //11
-char NeckBR[4] = {0,0,0,0}; //12
-char NeckBRcolor[4] = {0,0,0,0}; //NeckBR Color for Effect
-char AbsUL[4] = {0,0,0,0}; //13
-char AbsUR[4] = {0,0,0,0}; //14
-char AbsML[3] = {0,0,0}; //15
-char AbsMR[3] = {0,0,0}; //16
-char AbsDL[3] = {0,0,0}; //17
-char AbsDR[3] = {0,0,0}; //18
-char BackUL[3] = {0,0,0}; //19
-char BackUR[3] = {0,0,0}; //20
-char BackUM[3] = {0,0,0}; //21
-char BackD[3] = {0,0,0}; //22 (Nup)
-char LegUL[6] = {0,0,0,0,0,0}; //23
-char LegUR[6] = {0,0,0,0,0,0}; //24
-char LegDL[6] = {0,0,0,0,0,0}; //25
-char LegDR[6] = {0,0,0,0,0,0}; //26
-char ShoeL[8] = {0,0,0,0,0,0,0,0}; //27
-char ShoeR[8] = {0,0,0,0,0,0,0,0}; //28
-char Bridge[1] = {0}; //29
+unsigned char State[1] = {0}; //0 (Nup)
+unsigned char Mask[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; //1
+unsigned char Core[11] = {0,0,0,0,0,0,0,0,0,0,0}; //2
+unsigned char ShouldFL[3] = {0,0,0}; //3
+unsigned char ShouldFR[3] = {0,0,0}; //4
+unsigned char ShouldDL[3] = {0,0,0}; //5
+unsigned char ShouldDR[3] = {0,0,0}; //6
+unsigned char ShouldBL[3] = {0,0,0}; //7
+unsigned char ShouldBR[3] = {0,0,0}; //8
+unsigned char NeckL[3] = {0,0,0}; //9
+unsigned char NeckR[3] = {0,0,0}; //10
+unsigned char NeckBL[4] = {0,0,0,0}; //11
+unsigned char NeckBR[4] = {0,0,0,0}; //12
+unsigned char NeckBRcolor[4] = {0,0,0,0}; //NeckBR Color for Effect
+unsigned char AbsUL[4] = {0,0,0,0}; //13
+unsigned char AbsUR[4] = {0,0,0,0}; //14
+unsigned char AbsML[3] = {0,0,0}; //15
+unsigned char AbsMR[3] = {0,0,0}; //16
+unsigned char AbsDL[3] = {0,0,0}; //17
+unsigned char AbsDR[3] = {0,0,0}; //18
+unsigned char BackUL[3] = {0,0,0}; //19
+unsigned char BackUR[3] = {0,0,0}; //20
+unsigned char BackUM[3] = {0,0,0}; //21
+unsigned char BackD[3] = {0,0,0}; //22 (Nup)
+unsigned char LegUL[6] = {0,0,0,0,0,0}; //23
+unsigned char LegUR[6] = {0,0,0,0,0,0}; //24
+unsigned char LegDL[6] = {0,0,0,0,0,0}; //25
+unsigned char LegDR[6] = {0,0,0,0,0,0}; //26
+unsigned char ShoeL[8] = {0,0,0,0,0,0,0,0}; //27
+unsigned char ShoeR[8] = {0,0,0,0,0,0,0,0}; //28
+unsigned char Bridge[1] = {0}; //29
 
 /************Management*******************************/
 void valfromGroup(char groupID) {
@@ -345,6 +345,11 @@ char mergeGroup(char groupID, char accum) {
     }
     accum += size;
     return accum;
+    /*for(i = 0; i < groupSize[gShouldBR]; i++) {
+        dotValue[i + accum] = ShouldBR[i];
+        dotColor[i + accum] = groupColor[gShouldBR];
+    }
+    accum += groupSize[gShouldBR];*/
 }
 
 void merger(void) {
@@ -355,188 +360,36 @@ void merger(void) {
     //accum = mergeGroup(gBridge, accum);
     //accum = mergeGroup(gBackD, accum); //Nup
     accum = mergeGroup(gBackM, accum);
-    /*for(i = 0; i < groupSize[gBackM]; i++) {
-        dotValue[i + accum] = BackUM[i];
-        dotColor[i + accum] = groupColor[gBackM];
-    }
-    accum += groupSize[gBackM];*/
     accum = mergeGroup(gBackUL, accum);
-    /*for(i = 0; i < groupSize[gBackUL]; i++) {
-        dotValue[i + accum] = BackUL[i];
-        dotColor[i + accum] = groupColor[gBackUL];
-    }
-    accum += groupSize[gBackUL];*/
     accum = mergeGroup(gBackUR, accum);
-    /*for(i = 0; i < groupSize[gBackUR]; i++) {
-        dotValue[i + accum] = BackUR[i];
-        dotColor[i + accum] = groupColor[gBackUR];
-    }
-    accum += groupSize[gBackUR];*/
     accum = mergeGroup(gShouldBR, accum);
-    /*for(i = 0; i < groupSize[gShouldBR]; i++) {
-        dotValue[i + accum] = ShouldBR[i];
-        dotColor[i + accum] = groupColor[gShouldBR];
-    }
-    accum += groupSize[gShouldBR];*/
     accum = mergeGroup(gShouldDR, accum);
-    /*for(i = 0; i < groupSize[gShouldDR]; i++) {
-        dotValue[i + accum] = ShouldDR[i];
-        dotColor[i + accum] = groupColor[gShouldDR];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gShouldFR, accum);
-    /*for(i = 0; i < groupSize[gShouldFR]; i++) {
-        dotValue[i + accum] = ShouldFR[i];
-        dotColor[i + accum] = groupColor[gShouldFR];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gNeckR, accum);
-    /*for(i = 0; i < groupSize[gNeckR]; i++) {
-        dotValue[i + accum] = NeckL[i];
-        dotColor[i + accum] = groupColor[gNeckR];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     for(i = 0; i < groupSize[gNeckBR]; i++) { //accum = mergeGroup(gNeckBR, accum);
         dotValue[i + accum] = NeckBR[i];
         dotColor[i + accum] = NeckBRcolor[i];//groupColor[gNeckBR];
     }
     accum += groupSize[gNeckBR];
     accum = mergeGroup(gMask, accum);
-    /*for(i = 0; i < groupSize[gMask]; i++) {
-        dotValue[i + accum] = Mask[i];
-        dotColor[i + accum] = groupColor[gMask];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gNeckBL, accum);
-    /*for(i = 0; i < groupSize[gNeckBL]; i++) {
-        dotValue[i + accum] = NeckBL[i];
-        dotColor[i + accum] = groupColor[gNeckBL];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gNeckL, accum);
-    /*for(i = 0; i < groupSize[gNeckL]; i++) {
-        dotValue[i + accum] = NeckL[i];
-        dotColor[i + accum] = groupColor[gNeckL];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gShouldBL, accum);
-    /*for(i = 0; i < groupSize[gShouldBL]; i++) {
-        dotValue[i + accum] = ShouldBL[i];
-        dotColor[i + accum] = groupColor[gShouldBL];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gShouldDL, accum);
-    /*for(i = 0; i < groupSize[gShouldDL]; i++) {
-        dotValue[i + accum] = ShouldDL[i];
-        dotColor[i + accum] = groupColor[gShouldDL];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gShouldFL, accum);
-    /*for(i = 0; i < groupSize[gShouldFL]; i++) {
-        dotValue[i + accum] = ShouldFL[i];
-        dotColor[i + accum] = groupColor[gShouldFL];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gCore, accum);
-    /*for(i = 0; i < groupSize[gCore]; i++) {
-        dotValue[i + accum] = Core[i];
-        dotColor[i + accum] = groupColor[gCore];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gAbsUL, accum);
-    /*for(i = 0; i < groupSize[gAbsUL]; i++) {
-        dotValue[i + accum] = AbsUL[i];
-        dotColor[i + accum] = groupColor[gAbsUL];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gAbsUR, accum);
-    /*for(i = 0; i < groupSize[gAbsUR]; i++) {
-        dotValue[i + accum] = AbsUR[i];
-        dotColor[i + accum] = groupColor[gAbsUR];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gAbsMR, accum);
-    /*for(i = 0; i < groupSize[gAbsMR]; i++) {
-        dotValue[i + accum] = AbsMR[i];
-        dotColor[i + accum] = groupColor[gAbsMR];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gAbsML, accum);
-    /*for(i = 0; i < groupSize[gAbsML]; i++) {
-        dotValue[i + accum] = AbsML[i];
-        dotColor[i + accum] = groupColor[gAbsML];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gAbsDL, accum);
-    /*for(i = 0; i < groupSize[gAbsDL]; i++) {
-        dotValue[i + accum] = AbsDL[i];
-        dotColor[i + accum] = groupColor[gAbsDL];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gAbsDR, accum);
-    /*for(i = 0; i < groupSize[gAbsDR]; i++) {
-        dotValue[i + accum] = AbsDR[i];
-        dotColor[i + accum] = groupColor[gAbsDR];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gLegUL, accum);
-    /*for(i = 0; i < groupSize[gLegUL]; i++) {
-        dotValue[i + accum] = LegUL[i];
-        dotColor[i + accum] = groupColor[gLegUL];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gLegUR, accum);
-    /*for(i = 0; i < groupSize[gLegUR]; i++) {
-        dotValue[i + accum] = LegUR[i];
-        dotColor[i + accum] = groupColor[gLegUR];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gLegDL, accum);
-    /*for(i = 0; i < groupSize[gLegDL]; i++) {
-        dotValue[i + accum] = LegDL[i];
-        dotColor[i + accum] = groupColor[gLegDL];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gLegDR, accum);
-    /*for(i = 0; i < groupSize[gLegDR]; i++) {
-        dotValue[i + accum] = LegDR[i];
-        dotColor[i + accum] = groupColor[gLegDR];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gShoeL, accum);
-    /*for(i = 0; i < groupSize[gShoeL]; i++) {
-        dotValue[i + accum] = ShoeL[i];
-        dotColor[i + accum] = groupColor[gShoeL];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
     accum = mergeGroup(gShoeR, accum);
-    /*for(i = 0; i < groupSize[gShoeR]; i++) {
-        dotValue[i + accum] = ShoeR[i];
-        dotColor[i + accum] = groupColor[gShoeR];
-        preAccum = i + 1;
-    }
-    accum += preAccum;*/
 }
 
 void sendOrderX(void) {
@@ -606,6 +459,10 @@ void sendOrderDot(void) {
             sendDotStar(0,dotValue[i],dotValue[i]);
         else if(dotColor[i] == WHITE)
             sendDotStar(dotValue[i],dotValue[i],dotValue[i]);
+        else if(dotColor[i] == DRAGON)
+            sendDotStar(0, dotValue[i], 255-dotValue[i]);
+        else if(dotColor[i] == DRAGON2)
+            sendDotStar(0, 255-dotValue[i], dotValue[i]);
     }
     sendDotStar(10,10,10); //One more Pixel on White???
 }
@@ -697,10 +554,73 @@ void translateShadows(void) {
     }
 }
 
+void crashOn1(void) {
+    if(subContCrash < 17) {
+        dragonArray[indexCrash] = GREEN;
+        intensityCrash -= deltaCrash;
+        if(intensityCrash < 0)
+            intensityCrash = 0;
+    }else {
+        dragonArray[indexCrash] = BLUE;
+        intensityCrash += deltaCrash;
+        if(intensityCrash > 255)
+            intensityCrash = 255;
+    }
+    intensityArray[indexCrash] = intensityCrash;
+}
+
+void crashOff1(void) {
+    if(subContCrash < 17) {
+        dragonArray[32 - indexCrash] = BLUE;
+        intensityCrash -= deltaCrash;
+        if(intensityCrash < 0)
+            intensityCrash = 0;
+    }else {
+        dragonArray[32 - indexCrash] = GREEN;
+        intensityCrash += deltaCrash;
+        if(intensityCrash > 255)
+            intensityCrash = 255;
+    }
+    intensityArray[32 - indexCrash] = intensityCrash;
+}
+
+void crashOn2(void) {
+    dragonArray[indexCrash] = DRAGON;
+    intensityCrash -= deltaCrash;
+    if(intensityCrash < 0)
+        intensityCrash = 0;
+    /*if(subContCrash >= 32) {
+        dragonArray[indexCrash] = GREEN;
+        intensityCrash = 255;
+    }*/
+    intensityArray[indexCrash] = intensityCrash;
+}
+
+void crashOff2(void) {
+    dragonArray[32 - indexCrash] = DRAGON2;
+    intensityCrash -= deltaCrash;
+    if(intensityCrash < 0)
+        intensityCrash = 0;
+    intensityArray[32 - indexCrash] = intensityCrash;
+}
+
+void crashOff3(void) {
+    intensityCrash2 -= 1;
+    if(intensityCrash2 < 0)
+        intensityCrash2 = 0;
+    char ix = 0;
+    for(ix = 0; ix < 15; ix++) {
+        dragonArray[ix] = DRAGON2;
+        intensityArray[ix] = intensityCrash2;
+    }
+}
+
 void rstDragon(char start) {
     char i = 0;
-    for(i =0; i < 15; i++)
+    for(i = 0; i < 15; i++) {
         intensityArray[i] = 255;
+        dragonArray[i] = GREEN;
+    }
     intensityCrash = 255;
     subContCrash = 0;
     indexCrash = 0;
@@ -712,33 +632,15 @@ void dragonCrash(void) {
     if(runCrash && contCrash < 1500) {
         subContCrash++;
         if(indexCrash < 15) {
-            if(subContCrash < 17) {
-                dragonArray[indexCrash] = GREEN;
-                intensityCrash -= deltaCrash;
-                if(intensityCrash < 0)
-                    intensityCrash = 0;
-            }else {
-                dragonArray[indexCrash] = BLUE;
-                intensityCrash += deltaCrash;
-                if(intensityCrash > 255)
-                    intensityCrash = 255;
-            }
-            intensityArray[indexCrash] = intensityCrash;
+            //crashOn1();//OBO Cut
+            crashOn2();//OBO Smooth
         }else if(indexCrash < 18){
             //La lala lala
+            intensityCrash2 = 255;
         }else if(indexCrash < 33){
-            if(subContCrash < 17) {
-                dragonArray[32 - indexCrash] = BLUE;
-                intensityCrash -= deltaCrash;
-                if(intensityCrash < 0)
-                    intensityCrash = 0;
-            }else {
-                dragonArray[32 - indexCrash] = GREEN;
-                intensityCrash += deltaCrash;
-                if(intensityCrash > 255)
-                    intensityCrash = 255;
-            }
-            intensityArray[32 - indexCrash] = intensityCrash;
+            //crashOff1();//OBO Cut
+            //crashOff2();//OBO Smooth
+            crashOff3();//All Smooth
         }else {
             rstDragon(0);
             dragonCrashDone = 1;
@@ -765,6 +667,8 @@ void dragonCrash(void) {
         applyColor(gShoeR, dragonArray[14], intensityArray[14]);
         sendOrderX();
         contCrash++;
+    //}else if(runCrash) {
+      //  rstDragon(0);
     }
 }
 
@@ -790,7 +694,6 @@ void maskOn(void) {//CallOn Timer
     if(runMaskOn && contTimMaskOn < 60) {
         contTimMaskOn++;
         if(contTimMaskOn == (short)4*(indexMaskOn + 1)) {
-            //SeqVals[seqMASK] = seqMaskOn[indexMaskOn];
             val2group(gMask, seqMaskOn[indexMaskOn]);
             indexMaskOn++;
             sendOrderX();
@@ -818,8 +721,6 @@ void maskOff(void) {
         }
         subContMaskOff++;
         if(indexMaskOff < 9) {
-            /*for(char i = 0; i < 12; i++)
-                Mask[i] = 255;*/
             if(indexMaskOff < 8) {
                 MaskSeq[indexMaskOff] -= 16;
                 if(MaskSeq[indexMaskOff] < 0)
@@ -905,7 +806,6 @@ void demoEfectOn(void) {//CallOn Timer
 
 void rstMusik(char start) {
     ritmCont = 0;
-    //indexR = 0;
     noteNum = -5;
     stepsNote = 0;
     noteOnTempo = 0;
@@ -1049,17 +949,17 @@ void demoEfectOff(void) {
         timDemoOff++;
         if(timDemoOff <= 50) {
             fullBodyVal -= 5;
-            if(fullBodyVal <= 0)
+            if(fullBodyVal < 0)
                 fullBodyVal = 0;
         }
         if(timDemoOff > 50 && timDemoOff <= 100) {
             fullBodyVal += 4;
-            if(fullBodyVal >= 100)
+            if(fullBodyVal > 100)
                 fullBodyVal = 100;
         }
         if(timDemoOff > 100) {
             fullBodyVal -= 5;
-            if(fullBodyVal <= 0) {
+            if(fullBodyVal < 0) {
                 fullBodyVal = 0;
                 resetAndOff(1);
             }
@@ -1103,9 +1003,6 @@ void SeqPresOn(void) {//CallOn Timer
         seqByZone_On(seqCRUZ1, timPresOn);
         seqByZone_On(seqCRUZ2, timPresOn);
         seqByZone_On(seqLEGS, timPresOn);
-        /*char num = 0;
-        for(num = 0; num < 6; num++)
-            EUSART_Write(SeqVals[num]);*/
         if(timPresOn >= 240) {
             maskIsOn = 1;
             lightsOn = 1;
@@ -1191,6 +1088,12 @@ void applyColor(char group, char color, char intensity) {
     val2group(group, intensity);
 }
 
+void rstSeq(void) {
+    char i = 0;
+    for(i = 0; i < 6; i++)
+        SeqVals[i] = 0;
+}
+
 void allBodyVal(char val, char color) {
     char i = 0;
     for(i = 0; i < 30; i++)
@@ -1204,6 +1107,7 @@ void resetAndOff(char light) {
     lightsOn = 0;
     rstPressOn(0);
     rstPressOff(0);
+    rstSeq();
     rstDemoOn(0);
     rstDemoOff(0);
     rstMaskOn(0);
@@ -1277,7 +1181,7 @@ void pTMR1_ISR(void) { //10.4 ms steps
                 stepContPress = 0;
             }
             if(!dragonCrashDone) {
-                if(secCont == 15) {
+                if(!runCrash && secCont == 7) {
                     rstDragon(1);
                 }
                 dragonCrash();
@@ -1362,7 +1266,6 @@ void butt3Pres(char state) {
         if(lightsOn) {
             resetAndOff(0);
             rstDemoOff(1);
-            rstMusik(0);
             run = 1;
             UART3_Write('f'); //Sound Press Off
         }else
@@ -1409,8 +1312,8 @@ int main(void) {
     W_BOOT_SetHigh();
     W_EN_SetHigh();*/
     
-    butt3Pres(!in3_GetValue());//Check Switch State
     resetAndOff(1);
+    butt3Pres(!in3_GetValue());//Check Switch State
     
     while (1)
     {
