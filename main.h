@@ -8,11 +8,13 @@
 #include "mcc_generated_files/uart2.h"
 #include "mcc_generated_files/uart3.h"
 #include "mcc_generated_files/spi2_types.h"
+#include "mcc_generated_files/mccp1_compare.h"
+#include "mcc_generated_files/sccp4_compare.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-//#include "../Comunic.h"
+#include "../Comunic.h"
 //#include "../delay.h"
 
 #define seqCORE 0
@@ -61,17 +63,39 @@
 #define gLegDR 26
 #define gShoeL 27
 #define gShoeR 28
-#define gBridge 29
+#define gAllLed 100
+
+#define pOneLed 0
+#define pLedGroup 1
+#define pLedRange 2
+
+
+typedef union {
+    unsigned short valS;
+    struct {
+        unsigned char valSL;//LessSifnificant
+        unsigned char valSH;//MostSignificant
+    };
+}SHORT_CONV;
 
 void waitX0ms(char X);
-void dotTest(char cantDot);
+void dotTest1(short cantDot);
+void dotTest2(short cantDot);
+void dotTest2(short cantDot);
 
-void val2group(char group, char val);
+void valfromGroup(char groupID);
+void val2group(char group, unsigned char val);
 void merger(void);
 void sendOrderX(void);
 
+char mergeGroup1(char groupID, short accum);
+char mergeGroup2(char groupID, short accum);
+char mergeBridge1(short cantB, short accum);
+char mergeBridge2(short cantB, short accum);
+
 void dotStart(char i);
 void sendDotStar(char r, char g, char b);
+void sendDotStar2(char lumen, char r, char g, char b);
 void sendOrderDot(void);
 
 void rstShadow(char start);
@@ -104,7 +128,7 @@ void SeqPresOff(void);
 void seqApply(void);
 
 //void apply2Dummy(char out, char in);
-void applyColor(char group, char color, char intensity);
+void applyColor(char group, char color, unsigned char intensity);
 void rstSeq(void);
 void allBodyVal(char val, char color);
 void resetAndOff(char light);

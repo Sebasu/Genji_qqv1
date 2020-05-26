@@ -23,6 +23,8 @@
         <itemPath>mcc_generated_files/tmr1.h</itemPath>
         <itemPath>mcc_generated_files/tmr2.h</itemPath>
         <itemPath>mcc_generated_files/spi2_types.h</itemPath>
+        <itemPath>mcc_generated_files/mccp1_compare.h</itemPath>
+        <itemPath>mcc_generated_files/sccp4_compare.h</itemPath>
       </logicalFolder>
       <itemPath>../Genji_QQv1.X/main.h</itemPath>
     </logicalFolder>
@@ -50,6 +52,8 @@
         <itemPath>mcc_generated_files/tmr1.c</itemPath>
         <itemPath>mcc_generated_files/tmr2.c</itemPath>
         <itemPath>mcc_generated_files/uart2.c</itemPath>
+        <itemPath>mcc_generated_files/mccp1_compare.c</itemPath>
+        <itemPath>mcc_generated_files/sccp4_compare.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
     </logicalFolder>

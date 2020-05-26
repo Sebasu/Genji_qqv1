@@ -45,20 +45,24 @@
 #include "pin_manager.h"
 #include "clock.h"
 #include "system.h"
-#include "tmr1.h"
+#include "mccp1_compare.h"
+#include "spi2_driver.h"
+#include "drivers/spi_master.h"
 #include "tmr2.h"
 #include "interrupt_manager.h"
 #include "exceptions.h"
-#include "spi2_driver.h"
-#include "drivers/spi_master.h"
-#include "uart2.h"
+#include "tmr1.h"
+#include "sccp4_compare.h"
 #include "uart3.h"
+#include "uart2.h"
 
 void SYSTEM_Initialize(void)
 {
     PIN_MANAGER_Initialize();
     INTERRUPT_Initialize();
     CLOCK_Initialize();
+    SCCP4_COMPARE_Initialize();
+    MCCP1_COMPARE_Initialize();
     UART2_Initialize();
     UART3_Initialize();
     TMR2_Initialize();

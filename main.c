@@ -1,4 +1,5 @@
 #include "main.h"
+#include "mcc_generated_files/tmr1.h"
 
 char bLs1 = 0;
 char bLs2 = 0;
@@ -49,8 +50,8 @@ unsigned char dragonColor = 0;
 unsigned char deltaCrash = 16;//17?
 signed short intensityCrash = 0;
 signed short intensityCrash2 = 0;
-unsigned char dragonArray[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-unsigned char intensityArray[15] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+unsigned char dragonArray[15];
+unsigned char intensityArray[15];
 char dragonCrashDone = 0;
 
 char refriShoulderDone = 0;
@@ -64,15 +65,15 @@ unsigned char noteOnTempo = 0;
 signed char noteNum = 0;
 unsigned short ritmCont = 0;
 
-/********Steps of 10.4_ms Nucleo, Mask, hombF, Cruz1, Cruz2, Parte Baja********/
+/*****Steps of 10.4166667_ms Nucleo, Mask, hombF, Cruz1, Cruz2, Parte Baja*****/
 unsigned short firstDelay = 152;
 unsigned short delaysOn[6] = {0,4,28,36,44,52};
 unsigned char seqDeltasOn[6] = {8,6,5,6,7,9};
 //char durations[6] = {32,44,52,44,36,28};
-unsigned short delaysOff[6] = {48,32,0,0,0,0};//short delaysOff[6] = {140,60,24,16,0};//10.4ms blocks
+unsigned short delaysOff[6] = {48,32,0,0,0,0};//short delaysOff[6] = {140,60,24,16,0};
 unsigned char seqDeltasOff[6] = {3,5,5,6,7,9};
 unsigned short delaysDemo[6] = {0,0,0,28,36,52};
-/**********************************************************************/
+/******************************************************************************/
 
 unsigned char waiter = 0;
 unsigned long secCont = 0;
@@ -80,64 +81,82 @@ unsigned short minCont = 0;
 unsigned char stepContDemo = 0;
 unsigned char stepContPress = 0;
 
-/*char dummyCant = 29;
-char dummyValue[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-char dummyColor[29] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};*/
+unsigned short dotCant1 = 85;
+unsigned short dotCant2 = 85;
+unsigned char dotValue1[85];
+unsigned char dotValue2[85];
+unsigned char dotColor1[85];
+unsigned char dotColor2[85];
+unsigned char dotRed1[85];
+unsigned char dotRed2[85];
+unsigned char dotGreen1[85];
+unsigned char dotGreen2[85];
+unsigned char dotBlue1[85];
+unsigned char dotBlue2[85];
 
-unsigned short dotCant = 128;
-unsigned char dotValue[128] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0/*,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
-unsigned char dotColor[128] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-                        0,0,0/*,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*/};
+unsigned char groupBuff[18];
 
-unsigned char groupBuff[18] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+unsigned char groupCant = 29;
+unsigned char groupSize[29] = {1,16,11,3,3,3,3,3,3,3,3,4,4,4,4,3,3,3,3,3,3,3,3,6,6,6,6,8,8};
+unsigned char groupValue[29];
+unsigned char groupColor[29];
 
-unsigned char groupCant = 30;
-unsigned char groupSize[30] = {1,16,11,3,3,3,3,3,3,3,3,4,4,4,4,3,3,3,3,3,3,3,3,6,6,6,6,8,8,1};
-unsigned char groupValue[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-unsigned char groupColor[30] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+unsigned char State[1]; //0 (Nup)
+unsigned char Mask[16]; //1
+unsigned char Core[11]; //2
+unsigned char ShouldFL[3]; //3
+unsigned char ShouldFR[3]; //4
+unsigned char ShouldDL[3]; //5
+unsigned char ShouldDR[3]; //6
+unsigned char ShouldBL[3]; //7
+unsigned char ShouldBR[3]; //8
+unsigned char NeckL[3]; //9
+unsigned char NeckR[3]; //10
+unsigned char NeckBL[4]; //11
+unsigned char NeckBR[4]; //12
+unsigned char NeckBRcolor[4]; //NeckBR Color for Effect
+unsigned char AbsUL[4]; //13
+unsigned char AbsUR[4]; //14
+unsigned char AbsML[3]; //15
+unsigned char AbsMR[3]; //16
+unsigned char AbsDL[3]; //17
+unsigned char AbsDR[3]; //18
+unsigned char BackUL[3]; //19
+unsigned char BackUR[3]; //20
+unsigned char BackUM[3]; //21
+unsigned char BackD[3]; //22 (Nup)
+unsigned char LegUL[6]; //23
+unsigned char LegUR[6]; //24
+unsigned char LegDL[6]; //25
+unsigned char LegDR[6]; //26
+unsigned char ShoeL[8]; //27
+unsigned char ShoeR[8]; //28
 
-unsigned char State[1] = {0}; //0 (Nup)
-unsigned char Mask[16] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; //1
-unsigned char Core[11] = {0,0,0,0,0,0,0,0,0,0,0}; //2
-unsigned char ShouldFL[3] = {0,0,0}; //3
-unsigned char ShouldFR[3] = {0,0,0}; //4
-unsigned char ShouldDL[3] = {0,0,0}; //5
-unsigned char ShouldDR[3] = {0,0,0}; //6
-unsigned char ShouldBL[3] = {0,0,0}; //7
-unsigned char ShouldBR[3] = {0,0,0}; //8
-unsigned char NeckL[3] = {0,0,0}; //9
-unsigned char NeckR[3] = {0,0,0}; //10
-unsigned char NeckBL[4] = {0,0,0,0}; //11
-unsigned char NeckBR[4] = {0,0,0,0}; //12
-unsigned char NeckBRcolor[4] = {0,0,0,0}; //NeckBR Color for Effect
-unsigned char AbsUL[4] = {0,0,0,0}; //13
-unsigned char AbsUR[4] = {0,0,0,0}; //14
-unsigned char AbsML[3] = {0,0,0}; //15
-unsigned char AbsMR[3] = {0,0,0}; //16
-unsigned char AbsDL[3] = {0,0,0}; //17
-unsigned char AbsDR[3] = {0,0,0}; //18
-unsigned char BackUL[3] = {0,0,0}; //19
-unsigned char BackUR[3] = {0,0,0}; //20
-unsigned char BackUM[3] = {0,0,0}; //21
-unsigned char BackD[3] = {0,0,0}; //22 (Nup)
-unsigned char LegUL[6] = {0,0,0,0,0,0}; //23
-unsigned char LegUR[6] = {0,0,0,0,0,0}; //24
-unsigned char LegDL[6] = {0,0,0,0,0,0}; //25
-unsigned char LegDR[6] = {0,0,0,0,0,0}; //26
-unsigned char ShoeL[8] = {0,0,0,0,0,0,0,0}; //27
-unsigned char ShoeR[8] = {0,0,0,0,0,0,0,0}; //28
-unsigned char Bridge[1] = {0}; //29
+unsigned char genVal = 0;
 
 /************Management*******************************/
+void initArrays(void) {
+    char i = 0;
+    for(i = 0; i < dotCant1; i++) {
+        dotValue1[i] = 0;
+        dotValue2[i] = 0;
+        dotColor1[i] = 0;
+        dotColor2[i] = 0;
+        dotRed1[i] = 0;
+        dotRed2[i] = 0;
+        dotGreen1[i] = 1;
+        dotGreen2[i] = 1;
+        dotBlue1[i] = 0;
+        dotBlue2[i] = 0;
+    }
+    for(i = 0; i < groupCant; i++)
+        applyColor(i, 0, 0);
+    for(i = 0; i < 15; i++) {
+        dragonArray[i];
+        intensityArray[i];
+    }
+}
+
 void valfromGroup(char groupID) {
     char i = 0;
     for(i = 0; i < groupSize[groupID]; i++) {
@@ -229,14 +248,11 @@ void valfromGroup(char groupID) {
         case gShoeR:
             groupBuff[i] = ShoeR[i];
             break;
-        case gBridge:
-            groupBuff[i] = Bridge[i];
-            break;
         }
     }
 }
 
-void val2group(char groupID, char val) {
+void val2group(char groupID, unsigned char val) {
     char i = 0;
     for(i = 0; i < groupSize[groupID]; i++) {
         switch (groupID) {
@@ -327,69 +343,108 @@ void val2group(char groupID, char val) {
         case gShoeR:
             ShoeR[i] = val;
             break;
-        case gBridge:
-            Bridge[i] = val;
-            break;
         }
     }
     groupValue[groupID] = val;
 }
 
-char mergeGroup(char groupID, char accum) {
-    char i = 0;
-    char size = groupSize[groupID];
+char mergeGroup1(char groupID, short accum) {
+    short i = 0;
+    short size = (short)groupSize[groupID];
     valfromGroup(groupID);
     for(i = 0; i < size; i++) {
-        dotValue[i + accum] = groupBuff[i];
-        dotColor[i + accum] = groupColor[groupID];
+        dotValue1[i + accum] = groupBuff[i];
+        dotColor1[i + accum] = groupColor[groupID];
     }
     accum += size;
     return accum;
-    /*for(i = 0; i < groupSize[gShouldBR]; i++) {
-        dotValue[i + accum] = ShouldBR[i];
-        dotColor[i + accum] = groupColor[gShouldBR];
+}
+
+char mergeGroup2(char groupID, short accum) {
+    short i = 0;
+    short size = (short)groupSize[groupID];
+    valfromGroup(groupID);
+    for(i = 0; i < size; i++) {
+        dotValue2[i + accum] = groupBuff[i];
+        dotColor2[i + accum] = groupColor[groupID];
     }
-    accum += groupSize[gShouldBR];*/
+    accum += size;
+    return accum;
+}
+
+char mergeBridge1(short cantB, short accum) {
+    short i = 0;
+    for(i = 0; i < cantB; i++) {
+        dotValue1[i + accum] = 0;
+        dotColor1[i + accum] = 0;
+    }
+    accum += cantB;
+    return accum;
+}
+
+char mergeBridge2(short cantB, short accum) {
+    short i = 0;
+    for(i = 0; i < cantB; i++) {
+        dotValue2[i + accum] = 0;
+        dotColor2[i + accum] = 0;
+    }
+    accum += cantB;
+    return accum;
 }
 
 void merger(void) {
-    short preAccum = 0;
+    //short preAccum = 0;
     short accum = 0;
-    char i = 0;
+    short i = 0;
     //accum = mergeGroup(gState, accum);
-    //accum = mergeGroup(gBridge, accum);
     //accum = mergeGroup(gBackD, accum); //Nup
-    accum = mergeGroup(gBackM, accum);
-    accum = mergeGroup(gBackUL, accum);
-    accum = mergeGroup(gBackUR, accum);
-    accum = mergeGroup(gShouldBR, accum);
-    accum = mergeGroup(gShouldDR, accum);
-    accum = mergeGroup(gShouldFR, accum);
-    accum = mergeGroup(gNeckR, accum);
+    accum = mergeGroup1(gBackM, accum);
+    accum = mergeGroup1(gBackUL, accum);
+    accum = mergeGroup1(gBackUR, accum);
+    accum = mergeBridge1(3, accum);
+    accum = mergeGroup1(gShouldBR, accum);
+    accum = mergeGroup1(gShouldDR, accum);
+    accum = mergeGroup1(gShouldFR, accum);
+    accum = mergeBridge1(1, accum);
+    accum = mergeGroup1(gNeckR, accum);
     for(i = 0; i < groupSize[gNeckBR]; i++) { //accum = mergeGroup(gNeckBR, accum);
-        dotValue[i + accum] = NeckBR[i];
-        dotColor[i + accum] = NeckBRcolor[i];//groupColor[gNeckBR];
+        dotValue1[i + accum] = NeckBR[i];
+        dotColor1[i + accum] = NeckBRcolor[i];//groupColor[gNeckBR];
     }
     accum += groupSize[gNeckBR];
-    accum = mergeGroup(gMask, accum);
-    accum = mergeGroup(gNeckBL, accum);
-    accum = mergeGroup(gNeckL, accum);
-    accum = mergeGroup(gShouldBL, accum);
-    accum = mergeGroup(gShouldDL, accum);
-    accum = mergeGroup(gShouldFL, accum);
-    accum = mergeGroup(gCore, accum);
-    accum = mergeGroup(gAbsUL, accum);
-    accum = mergeGroup(gAbsUR, accum);
-    accum = mergeGroup(gAbsMR, accum);
-    accum = mergeGroup(gAbsML, accum);
-    accum = mergeGroup(gAbsDL, accum);
-    accum = mergeGroup(gAbsDR, accum);
-    accum = mergeGroup(gLegUL, accum);
-    accum = mergeGroup(gLegUR, accum);
-    accum = mergeGroup(gLegDL, accum);
-    accum = mergeGroup(gLegDR, accum);
-    accum = mergeGroup(gShoeL, accum);
-    accum = mergeGroup(gShoeR, accum);
+    //accum = mergeBridge1(3, accum);
+    accum = mergeGroup1(gMask, accum);
+    //accum = mergeBridge1(3, accum);
+    accum = mergeGroup1(gNeckBL, accum);
+    accum = mergeGroup1(gNeckL, accum);
+    accum = mergeBridge1(1, accum);
+    accum = mergeGroup1(gShouldBL, accum);
+    accum = mergeGroup1(gShouldDL, accum);
+    accum = mergeGroup1(gShouldFL, accum);
+    accum = mergeBridge1(3, accum);
+    accum = mergeGroup1(gCore, accum);
+    accum = mergeBridge1(1, accum);
+    accum = mergeGroup1(gAbsUL, accum);
+    accum = mergeGroup1(gAbsUR, accum);
+    accum = 0;
+    accum = mergeGroup2(gAbsMR, accum);
+    accum = mergeGroup2(gAbsML, accum);
+    accum = mergeGroup2(gAbsDL, accum);
+    accum = mergeGroup2(gAbsDR, accum);
+    accum = mergeBridge2(1, accum);
+    accum = mergeBridge2(3, accum);
+    accum = mergeGroup2(gLegUR, accum);
+    accum = mergeBridge2(6, accum);
+    accum = mergeGroup2(gLegDR, accum);
+    accum = mergeBridge2(3, accum);
+    accum = mergeGroup2(gShoeR, accum);
+    accum = mergeBridge2(1, accum);
+    accum = mergeBridge2(10, accum);
+    accum = mergeGroup2(gLegUL, accum);
+    accum = mergeBridge2(6, accum);
+    accum = mergeGroup2(gLegDL, accum);
+    accum = mergeBridge2(3, accum);
+    accum = mergeGroup2(gShoeL, accum);
 }
 
 void sendOrderX(void) {
@@ -424,7 +479,6 @@ void sendOrderX(void) {
     apply2Dummy(27, gState);
     apply2Dummy(28, gBackD);*/
     
-    //applyColor(gBridge, GREEN, 0);
     merger();
     sendOrderDot();
 }
@@ -437,34 +491,63 @@ void dotStart(char i) {
 }
 
 void sendDotStar(char r, char g, char b) {
-    spi2_exchangeByte(255);spi2_exchangeByte(b);
+    spi2_exchangeByte(0b11100001);
+    spi2_exchangeByte(b);
+    spi2_exchangeByte(g);spi2_exchangeByte(r);
+}
+
+void sendDotStar2(char lumen, char r, char g, char b) {
+    if(lumen > 0b11111)
+        lumen = 0b11111;//31
+    char l = 0b11100000 | lumen;
+    spi2_exchangeByte(l);spi2_exchangeByte(b);
     spi2_exchangeByte(g);spi2_exchangeByte(r);
 }
 
 void sendOrderDot(void) {
     short i = 0;
     dotStart(i);
-    for(i = 0; i < dotCant; i++) {
-        if(dotColor[i] == RED)
-            sendDotStar(dotValue[i],0,0);
-        else if(dotColor[i] == GREEN)
-            sendDotStar(0,dotValue[i],0);
-        else if(dotColor[i] == BLUE)
-            sendDotStar(0,0,dotValue[i]);
-        else if(dotColor[i] == YELLOW)
-            sendDotStar(dotValue[i],dotValue[i],0);
-        else if(dotColor[i] == PURPLE)
-            sendDotStar(dotValue[i],0,dotValue[i]);
-        else if(dotColor[i] == CYAN)
-            sendDotStar(0,dotValue[i],dotValue[i]);
-        else if(dotColor[i] == WHITE)
-            sendDotStar(dotValue[i],dotValue[i],dotValue[i]);
-        else if(dotColor[i] == DRAGON)
-            sendDotStar(0, dotValue[i], 255-dotValue[i]);
-        else if(dotColor[i] == DRAGON2)
-            sendDotStar(0, 255-dotValue[i], dotValue[i]);
+    for(i = 0; i < dotCant1; i++) {
+        if(dotColor1[i] == RED)
+            sendDotStar(dotValue1[i],0,0);
+        else if(dotColor1[i] == GREEN)
+            sendDotStar(0,dotValue1[i],0);
+        else if(dotColor1[i] == BLUE)
+            sendDotStar(0,0,dotValue1[i]);
+        else if(dotColor1[i] == YELLOW)
+            sendDotStar(dotValue1[i],dotValue1[i],0);
+        else if(dotColor1[i] == PURPLE)
+            sendDotStar(dotValue1[i],0,dotValue1[i]);
+        else if(dotColor1[i] == CYAN)
+            sendDotStar(0,dotValue1[i],dotValue1[i]);
+        else if(dotColor1[i] == WHITE)
+            sendDotStar(dotValue1[i],dotValue1[i],dotValue1[i]);
+        else if(dotColor1[i] == DRAGON)
+            sendDotStar(0, dotValue1[i], 255-dotValue1[i]);
+        else if(dotColor1[i] == DRAGON2)
+            sendDotStar(0, 255-dotValue1[i], dotValue1[i]);
     }
-    sendDotStar(10,10,10); //One more Pixel on White???
+    for(i = 0; i < dotCant2; i++) {
+        if(dotColor2[i] == RED)
+            sendDotStar(dotValue2[i],0,0);
+        else if(dotColor2[i] == GREEN)
+            sendDotStar(0,dotValue2[i],0);
+        else if(dotColor2[i] == BLUE)
+            sendDotStar(0,0,dotValue2[i]);
+        else if(dotColor2[i] == YELLOW)
+            sendDotStar(dotValue2[i],dotValue2[i],0);
+        else if(dotColor2[i] == PURPLE)
+            sendDotStar(dotValue2[i],0,dotValue2[i]);
+        else if(dotColor2[i] == CYAN)
+            sendDotStar(0,dotValue2[i],dotValue2[i]);
+        else if(dotColor2[i] == WHITE)
+            sendDotStar(dotValue2[i],dotValue2[i],dotValue2[i]);
+        else if(dotColor2[i] == DRAGON)
+            sendDotStar(0, dotValue2[i], 255-dotValue2[i]);
+        else if(dotColor2[i] == DRAGON2)
+            sendDotStar(0, 255-dotValue2[i], dotValue2[i]);
+    }
+    sendDotStar(255,255,255); //One more Pixel on White???
 }
 /************DotStar Drivers*******************************/
 
@@ -477,41 +560,41 @@ void rstShadow(char start) {
 }
 
 void despShadow(void) {
-    if(runShadow && contTimShadow < 600) {
+    if(runShadow && contTimShadow < 650) {
         if(contTimShadow < 1) {
             char i = 0;
-            for(i = 0; i < 21; i++)
+            for(i = 0; i < 22; i++)
                 shadowArray[i] = 255;
         }
         subContShadow++;
-        if(indexShadow < 24) {
-            if(indexShadow < 21) {
+        if(indexShadow < 25) {
+            if(indexShadow < 22) {
                 shadowArray[indexShadow] -= 6;
                 if(shadowArray[indexShadow] < 0)
                     shadowArray[indexShadow] = 0;
             }
-            if(indexShadow > 0 && indexShadow < 22) {
+            if(indexShadow > 0 && indexShadow < 23) {
                 shadowArray[indexShadow - 1] -= 6;
                 if(shadowArray[indexShadow - 1] < 0)
                     shadowArray[indexShadow - 1] = 0;
             }
-            if(indexShadow > 1 && indexShadow < 23) {
+            if(indexShadow > 1 && indexShadow < 24) {
                 shadowArray[indexShadow - 2] += 6;
                 if(shadowArray[indexShadow - 2] > 255)
                     shadowArray[indexShadow - 2] = 255;
             }
-            if(indexShadow > 2 && indexShadow < 24) {
+            if(indexShadow > 2 && indexShadow < 25) {
                 shadowArray[indexShadow - 3] += 6;
                 if(shadowArray[indexShadow - 3] > 255)
                     shadowArray[indexShadow - 3] = 255;
             }
         }else {
             char i = 0;
-            for(i = 0; i < 21; i++)
+            for(i = 0; i < 22; i++)
                 shadowArray[i] = 255;
             rstShadow(0);
         }
-        if(subContShadow >= 24) {
+        if(subContShadow >= 25) {
             indexShadow++;
             subContShadow = 0;
         }
@@ -792,12 +875,12 @@ void demoEfectOn(void) {//CallOn Timer
                     fullBodyVal = 255;
                     lightsOn = 1;
                 }
-                allBodyVal((char)fullBodyVal, GREEN);
+                allBodyVal((char)fullBodyVal, genVal);
                 sendOrderX();
             }
         }else {
             rstDemoOn(0);
-            UART3_Write('z');
+            putch('z');
             if(!musikRun)
                 rstMusik(1);
         }
@@ -818,7 +901,7 @@ void musik(void) {
             valTempo = 255;
             valBip1 = 255;
             valBip2 = 255;
-            UART3_Write('e');
+            putch('e');
         }
         stepsNote++;
         if(noteNum < 72) {
@@ -915,25 +998,25 @@ void musik(void) {
             if(noteOnTempo > 3)
                 noteOnTempo = 0;
         }
-        val2group(gBackUL, valTempo);
-        val2group(gBackUR, valTempo);
-        val2group(gBackM, valTempo);
-        val2group(gBackD, valTempo);
-        val2group(gNeckBL, valTempo);
-        val2group(gNeckBR, valTempo);
-        val2group(gNeckL, valTempo);
-        val2group(gNeckR, valTempo);
-        val2group(gShouldBL, valTempo);
-        val2group(gShouldBR, valTempo);
-        val2group(gCore, valBip2);
-        val2group(gShouldFL, valBip2);//?
-        val2group(gShouldFR, valBip2);//?
-        val2group(gAbsUL, valBip1);
-        val2group(gAbsUR, valBip1);
-        val2group(gAbsML, valBip1);
-        val2group(gAbsMR, valBip1);
-        val2group(gAbsDL, valBip1);
-        val2group(gAbsDR, valBip1);
+        val2group(gBackUL, (unsigned char)valTempo);
+        val2group(gBackUR, (unsigned char)valTempo);
+        val2group(gBackM, (unsigned char)valTempo);
+        val2group(gBackD, (unsigned char)valTempo);
+        val2group(gNeckBL, (unsigned char)valTempo);
+        val2group(gNeckBR, (unsigned char)valTempo);
+        val2group(gNeckL, (unsigned char)valTempo);
+        val2group(gNeckR, (unsigned char)valTempo);
+        val2group(gShouldBL, (unsigned char)valTempo);
+        val2group(gShouldBR, (unsigned char)valTempo);
+        val2group(gCore, (unsigned char)valBip2);
+        val2group(gShouldFL, (unsigned char)valBip2);//?
+        val2group(gShouldFR, (unsigned char)valBip2);//?
+        val2group(gAbsUL, (unsigned char)valBip1);
+        val2group(gAbsUR, (unsigned char)valBip1);
+        val2group(gAbsML, (unsigned char)valBip1);
+        val2group(gAbsMR, (unsigned char)valBip1);
+        val2group(gAbsDL, (unsigned char)valBip1);
+        val2group(gAbsDR, (unsigned char)valBip1);
         sendOrderX();
         ritmCont++;
     }
@@ -964,7 +1047,7 @@ void demoEfectOff(void) {
                 resetAndOff(1);
             }
         }
-        allBodyVal((char)fullBodyVal, GREEN);
+        allBodyVal((char)fullBodyVal, genVal);
         sendOrderX();
     }
 }
@@ -994,7 +1077,7 @@ void SeqPresOn(void) {//CallOn Timer
     if(flagPressOn && timPresOn < 250) {
         timPresOn++;
         if(!soundASOn && timPresOn > 40/*/firstDelay/**/) {
-            UART3_Write('g'); //Sound Press On
+            putch('g'); //Sound Press On
             soundASOn = 1;
         }
         seqByZone_On(seqCORE, timPresOn);
@@ -1023,7 +1106,7 @@ void SeqPresOff(void) {//CallOn Timer
     if(flagPressOff && timPresOff < 320) {
         timPresOff++;
         if(!soundASOff && timPresOff > delaysOff[seqLEGS]) {
-            UART3_Write('f'); //Sound Press Off
+            putch('f'); //Sound Press Off
             soundASOff = 1;
         }
         seqByZone_Off(seqCORE, timPresOff);
@@ -1043,37 +1126,37 @@ void SeqPresOff(void) {//CallOn Timer
 void seqApply(void) {
     //State[1] = {0};
     
-    val2group(gCore, (char)SeqVals[seqCORE]);
-    val2group(gMask, (char)SeqVals[seqMASK]);
-    val2group(gShouldFL, (char)SeqVals[seqFRONT]);
-    val2group(gShouldFR, (char)SeqVals[seqFRONT]);
+    val2group(gCore, (unsigned char)SeqVals[seqCORE]);
+    val2group(gMask, (unsigned char)SeqVals[seqMASK]);
+    val2group(gShouldFL, (unsigned char)SeqVals[seqFRONT]);
+    val2group(gShouldFR, (unsigned char)SeqVals[seqFRONT]);
     
-    val2group(gAbsUR, (char)SeqVals[seqCRUZ1]);
-    val2group(gAbsMR, (char)SeqVals[seqCRUZ1]);
-    val2group(gAbsDR, (char)SeqVals[seqCRUZ1]);
-    val2group(gShouldDR, (char)SeqVals[seqCRUZ1]);
-    val2group(gNeckL, (char)SeqVals[seqCRUZ1]);
-    val2group(gShouldBL, (char)SeqVals[seqCRUZ1]);
-    val2group(gNeckBR, (char)SeqVals[seqCRUZ1]);
-    val2group(gBackUL, (char)SeqVals[seqCRUZ1]);
+    val2group(gAbsUR, (unsigned char)SeqVals[seqCRUZ1]);
+    val2group(gAbsMR, (unsigned char)SeqVals[seqCRUZ1]);
+    val2group(gAbsDR, (unsigned char)SeqVals[seqCRUZ1]);
+    val2group(gShouldDR, (unsigned char)SeqVals[seqCRUZ1]);
+    val2group(gNeckL, (unsigned char)SeqVals[seqCRUZ1]);
+    val2group(gShouldBL, (unsigned char)SeqVals[seqCRUZ1]);
+    val2group(gNeckBR, (unsigned char)SeqVals[seqCRUZ1]);
+    val2group(gBackUL, (unsigned char)SeqVals[seqCRUZ1]);
     
-    val2group(gAbsUL, (char)SeqVals[seqCRUZ2]);
-    val2group(gAbsML, (char)SeqVals[seqCRUZ2]);
-    val2group(gAbsDL, (char)SeqVals[seqCRUZ2]);
-    val2group(gShouldDL, (char)SeqVals[seqCRUZ2]);
-    val2group(gNeckR, (char)SeqVals[seqCRUZ2]);
-    val2group(gShouldBR, (char)SeqVals[seqCRUZ2]);
-    val2group(gNeckBL, (char)SeqVals[seqCRUZ2]);
-    val2group(gBackUR, (char)SeqVals[seqCRUZ2]);
-    val2group(gBackM, (char)SeqVals[seqCRUZ2]);
-    //val2group(gBackD, (char)SeqVals[seqCRUZ2]);
+    val2group(gAbsUL, (unsigned char)SeqVals[seqCRUZ2]);
+    val2group(gAbsML, (unsigned char)SeqVals[seqCRUZ2]);
+    val2group(gAbsDL, (unsigned char)SeqVals[seqCRUZ2]);
+    val2group(gShouldDL, (unsigned char)SeqVals[seqCRUZ2]);
+    val2group(gNeckR, (unsigned char)SeqVals[seqCRUZ2]);
+    val2group(gShouldBR, (unsigned char)SeqVals[seqCRUZ2]);
+    val2group(gNeckBL, (unsigned char)SeqVals[seqCRUZ2]);
+    val2group(gBackUR, (unsigned char)SeqVals[seqCRUZ2]);
+    val2group(gBackM, (unsigned char)SeqVals[seqCRUZ2]);
+    //val2group(gBackD, (unsigned char)SeqVals[seqCRUZ2]);
     
-    val2group(gLegUL, (char)SeqVals[seqLEGS]);
-    val2group(gLegUR, (char)SeqVals[seqLEGS]);
-    val2group(gLegDL, (char)SeqVals[seqLEGS]);
-    val2group(gLegDR, (char)SeqVals[seqLEGS]);
-    val2group(gShoeL, (char)SeqVals[seqLEGS]);
-    val2group(gShoeR, (char)SeqVals[seqLEGS]);
+    val2group(gLegUL, (unsigned char)SeqVals[seqLEGS]);
+    val2group(gLegUR, (unsigned char)SeqVals[seqLEGS]);
+    val2group(gLegDL, (unsigned char)SeqVals[seqLEGS]);
+    val2group(gLegDR, (unsigned char)SeqVals[seqLEGS]);
+    val2group(gShoeL, (unsigned char)SeqVals[seqLEGS]);
+    val2group(gShoeR, (unsigned char)SeqVals[seqLEGS]);
 }
 /************Light Effects*********************************/
 
@@ -1083,7 +1166,7 @@ void seqApply(void) {
     dummyColor[out] = groupColor[in];
 }*/
 
-void applyColor(char group, char color, char intensity) {
+void applyColor(char group, char color, unsigned char intensity) {
     groupColor[group] = color;
     val2group(group, intensity);
 }
@@ -1096,7 +1179,7 @@ void rstSeq(void) {
 
 void allBodyVal(char val, char color) {
     char i = 0;
-    for(i = 0; i < 30; i++)
+    for(i = 0; i < groupCant; i++)
         applyColor(i, color, val);
 }
 
@@ -1124,6 +1207,7 @@ void resetAndOff(char light) {
     run = 0;
     if(light) {
         fullBodyVal = 0;
+        genVal = GREEN;
         allBodyVal(0, GREEN);
     }
     sendOrderX();
@@ -1139,7 +1223,7 @@ void execMask_Sword(void) {
                 rstMaskOn(1);
         }
     }else
-        UART3_Write('s');//Demo Sonido Sword en Celular
+        putch('s');//Demo Sonido Sword en Celular
 }
 
 void initStop(void) {
@@ -1159,9 +1243,127 @@ void initStop(void) {
         run = 1;
 }
 
+char pInit = 0;
+char pCont = 0;
+char pVals[10] = {0,0,0,0,0,0,0,0,0,0};
+char pTot = 10;
+char execChan = 0;
+short ledI = 0;
+short ledE = 0;
+short ledI1 = 0;
+short ledE1 = 0;
+short ledI2 = 0;
+short ledE2 = 0;
+SHORT_CONV sc;
+
+void protExec() {
+    short i = 0;
+    short cant1 = 0;
+    short cant2 = 0;
+    switch(pVals[0]) {
+        case pOneLed:   //bInit, type, numLed(16), valR, valG, valB, valG?, bEnd, bEnd, bEnd
+            sc.valSH = pVals[1];
+            sc.valSL = pVals[2];
+            if(sc.valS > dotCant1) {
+                cant1 = dotCant1;
+                cant2 = sc.valS - dotCant1;
+                dotRed2[cant2] = pVals[3];
+                dotGreen2[cant2] = pVals[4];
+                dotBlue2[cant2] = pVals[5];
+            }else {
+                cant1 = sc.valS;
+                dotRed1[cant1] = pVals[3];
+                dotGreen1[cant1] = pVals[4];
+                dotBlue1[cant1] = pVals[5];
+            }
+            //dotGen[sc.valS] = pVals[6];
+            //dotGen[sc.valS] = pVals[7];
+            //dotGen[sc.valS] = pVals[8];
+            break;
+        case pLedGroup: //bInit, type, numGroup|allArray, valR, valG, valB, valG?, bEnd, bEnd, bEnd, bEnd
+            //numGroup = pVals[1];
+            //dotRed[sc.valS] = pVals[2];
+            //dotGreen[sc.valS] = pVals[3];
+            //dotBlue[sc.valS] = pVals[4];
+            //dotGen[sc.valS] = pVals[5];
+            //dotGen[sc.valS] = pVals[6];
+            //dotGen[sc.valS] = pVals[7];
+            //dotGen[sc.valS] = pVals[8];
+            if(pVals[1] == 100) {//allArray
+                for(i = 0; i < dotCant1; i++) {
+                    dotRed1[i] = pVals[2];
+                    dotGreen1[i] = pVals[3];
+                    dotBlue1[i] = pVals[4];
+                }
+                for(i = 0; i < dotCant2; i++) {
+                    dotRed2[i] = pVals[2];
+                    dotGreen2[i] = pVals[3];
+                    dotBlue2[i] = pVals[4];
+                }
+            }
+            break;
+        case pLedRange: //bInit, type, ledInit(16), ledEnd(16), valR, valG, valB, valG?, bEnd
+            sc.valSH = pVals[1];
+            sc.valSL = pVals[2];
+            ledI = sc.valS;
+            sc.valSH = pVals[3];
+            sc.valSL = pVals[4];
+            ledE = sc.valS;
+            if(ledE > ledI) {
+                if(ledI >= dotCant1) {
+                    ledI1 = 0;
+                    ledE1 = 0;
+                    ledI2 = ledI - dotCant1;
+                    ledE2 = ledE - dotCant1;
+                }else if(ledE >= dotCant1) {
+                    ledI1 = ledI;
+                    ledE1 = dotCant1;
+                    ledI2 = 0;
+                    ledE2 = ledE - dotCant1;
+                }else {
+                    ledI1 = ledI;
+                    ledE1 = ledE;
+                    ledI2 = 0;
+                    ledE2 = 0;
+                }
+                //dotRed[sc.valS] = pVals[5];
+                //dotGreen[sc.valS] = pVals[6];
+                //dotBlue[sc.valS] = pVals[7];
+                //dotGen[sc.valS] = pVals[8];
+                for(i = ledI1; i <= ledE1; i++) {
+                    dotRed1[i] = pVals[5];
+                    dotGreen1[i] = pVals[6];
+                    dotBlue1[i] = pVals[7];
+                }
+                for(i = ledI2; i <= ledE2; i++) {
+                    dotRed2[i] = pVals[5];
+                    dotGreen2[i] = pVals[6];
+                    dotBlue2[i] = pVals[7];
+                }
+            }
+            break;
+    }
+    execChan = 0;
+}
+
+void protRCV(char rcv) {
+    if(!pInit) {
+        if(rcv == 13){
+            pCont = 0;
+            pInit = 1;
+        }
+    }else if(pCont < pTot - 1){
+        pVals[pCont] = rcv;
+        pCont++;
+    }else if(rcv == 10) {
+        pInit = 0;
+        execChan = 1;
+    }
+}
+
 /************Interruptions*******************************/
-void pTMR1_ISR(void) { //10.4 ms steps
-    if(waiter < 10)
+void pTMR1_ISR(void) { //10.4166667 ms steps
+    if(waiter < 50)
         waiter++;
     if(run) {
         if(flagPressOn)
@@ -1223,8 +1425,18 @@ void pTMR1_ISR(void) { //10.4 ms steps
     }
 }
 
+//char q = 0;
 void pTMR2_ISR(void) { //500 ms steps
     STA_Toggle();
+    /*if(!q) {
+        //MCCP1_COMPARE_DualCompareValueSet(0,400);
+        //SCCP4_COMPARE_DualCompareValueSet(0,375);
+        q = 1;
+    }else {
+        //MCCP1_COMPARE_DualCompareValueSet(0,775);
+        //SCCP4_COMPARE_DualCompareValueSet(0,600);
+        q = 0;
+    }*/
     //o3_Toggle();
     //o4_Toggle();
 }
@@ -1246,12 +1458,28 @@ void pRX3_ISR(void) { //Antena HC-05, IO1 e IO3
         butt1Pres(0);
     else if(cha == 'b')
         butt2Pres(0);
+    /*else if(cha == 'R') {
+        genVal = RED;
+        allBodyVal(255, RED);
+    }else if(cha == 'G') {
+        genVal = GREEN;
+        allBodyVal(255, GREEN);
+    }else if(cha == 'B') {
+        genVal = BLUE;
+        allBodyVal(255, BLUE);
+    }*/
+    protRCV(cha);
+    //SCCP4_COMPARE_DualCompareValueSet(0,(short)cha*10);
     IFS1bits.U3RXIF = 0;
+}
+
+void putch(char val) {
+    UART3_Write(val);
 }
 /************Interruptions*******************************/
 
 void butt1Pres(char state) {
-    UART3_Write('a');
+    putch('a');
     initStop();
 }
 
@@ -1261,17 +1489,17 @@ void butt2Pres(char state) {
 
 void butt3Pres(char state) {
     if(state) {
-        UART3_Write('o');//demo off
+        putch('o');//demo off
         modoPress_nDemo = 1;
         if(lightsOn) {
             resetAndOff(0);
             rstDemoOff(1);
             run = 1;
-            UART3_Write('f'); //Sound Press Off
+            putch('f'); //Sound Press Off
         }else
             resetAndOff(1);
     }else {
-        UART3_Write('d');//demo on
+        putch('d');//demo on
         modoPress_nDemo = 0;
         resetAndOff(1);
     }
@@ -1283,24 +1511,96 @@ void waitX0ms(char X) { //Must be < 11 (X * 10.4 ms)
     while(waiter < X);//__delay_ms(X0);
 }
 
-void dotTest(char cantDot) {
-    char i = 0;
+void dotTest1(short cantDot) {
+    short i = 0;
+    short i2 = 0;
+    short cant1 = cantDot;
+    short cant2 = 0;
+    if(cantDot > dotCant1) {
+        cant1 = dotCant1;
+        cant2 = cantDot - dotCant1;
+    }
+    for(i = 0; i < cantDot; i++) {
+        if(i < dotCant1)
+            dotValue1[i] = 1;
+        else
+            dotValue2[i - dotCant1] = 1;
+        dotStart(0);
+        for(i2 = 0; i2 < cant1; i2++) {
+            sendDotStar(0, dotValue1[i2], 0);
+            if(i == cant1 - 1)
+                dotValue1[i2] = 0;
+        }
+        for(i2 = 0; i2 < cant2; i2++) {
+            sendDotStar(0, dotValue2[i2], 0);
+            if(i == cant2 - 1)
+                dotValue2[i2] = 0;
+        }
+        sendDotStar(255,255,255);
+        waitX0ms(1);
+    }
+}
+
+void dotTest2(short cantDot) {
+    short i = 0;
+    short cant1 = cantDot;
+    short cant2 = 0;
+    if(cantDot > dotCant1) {
+        cant1 = dotCant1;
+        cant2 = cantDot - dotCant1;
+    }
     for(i = 0; i < cantDot; i++) {
         char i2 = 0;
         dotStart(i2);
-        for(i2 = 0; i2 < cantDot; i2++) {
-            sendDotStar(0, dotValue[i2], 0);
-            dotValue[i2] = 0;
+        for(i2 = 0; i2 < cant1; i2++) {
+            sendDotStar(0, dotValue1[i2], 0);
+            dotValue1[i2] = 0;
         }
-        sendDotStar(10,10,10);
-        dotValue[i] = 255;
-        waitX0ms(10);
+        for(i2 = 0; i2 < cant2; i2++) {
+            sendDotStar(0, dotValue2[i2], 0);
+            dotValue2[i2] = 0;
+        }
+        sendDotStar(255,255,255);
+        if(i < dotCant1)
+            dotValue1[i] = 20;
+        else
+            dotValue2[i - dotCant1] = 20;
+        waitX0ms(5);
+    }
+}
+
+void dotTest3(short cantDot) {
+    short i = 0;
+    short cant1 = cantDot;
+    short cant2 = 0;
+    if(cantDot > dotCant1) {
+        cant1 = dotCant1;
+        cant2 = cantDot - dotCant1;
+    }
+    for(i = 0; i < cantDot; i++) {
+        char i2 = 0;
+        dotStart(i2);
+        for(i2 = 0; i2 < cant1; i2++) {
+            sendDotStar2(dotValue1[i2], dotRed1[i2], dotGreen1[i2], dotBlue1[i2]);
+            dotValue1[i2] = 0;
+        }
+        for(i2 = 0; i2 < cant2; i2++) {
+            sendDotStar2(dotValue2[i2], dotRed2[i2], dotGreen2[i2], dotBlue2[i2]);
+            dotValue2[i2] = 0;
+        }
+        sendDotStar(255,255,255);
+        if(i < dotCant1)
+            dotValue1[i] = 31;
+        else
+            dotValue2[i - dotCant1] = 31;
+        waitX0ms(5);
     }
 }
 /************Resources*******************************/
 
 int main(void) {
     SYSTEM_Initialize(); // initialize the device
+    initArrays();
     TMR1_SetInterruptHandler(pTMR1_ISR); //10.4ms Steps
     TMR2_SetInterruptHandler(pTMR2_ISR); //BlinkLED (500 ms)
 
@@ -1308,13 +1608,15 @@ int main(void) {
     UART3_SetRxInterruptHandler(pRX3_ISR);
     spi2_open(MASTER0_CONFIG);
     
+    /*MCCP1_COMPARE_Start();
+    SCCP4_COMPARE_Start();*/
+    
     /*W_EN_SetLow();
     W_BOOT_SetHigh();
     W_EN_SetHigh();*/
     
     resetAndOff(1);
     butt3Pres(!in3_GetValue());//Check Switch State
-    
     while (1)
     {
         if(!bLs1) { //Boton 1 AKA On/Off
@@ -1352,7 +1654,10 @@ int main(void) {
             waitX0ms(5);
         if(bLs2)
             waitX0ms(5);
-        //dotTest(71);
+        if(execChan) {
+            protExec();
+        }
+        dotTest3(170);
     }
     return 1; 
 }

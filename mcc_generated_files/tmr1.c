@@ -90,8 +90,8 @@ static TMR_OBJ tmr1_obj;
 
 void TMR1_Initialize (void)
 {
-    // Period = 0.0104 s; Frequency = 24000000 Hz; PR1 31199; 
-    PR1 = 0x79DF;
+    // Period = 0.0104166667 s; Frequency = 24000000 Hz; PR1 31249; 
+    PR1 = 0x7A11;
     //  TCKPS 1:8; TWDIS disabled; TCS PBCLK; TECS SOSC; SIDL disabled; TSYNC disabled; TWIP disabled; TGATE disabled; ON enabled; 
     T1CON = 0x8010;    
 
