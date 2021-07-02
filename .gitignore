@@ -52,3 +52,6 @@ Mkfile.old
 dkms.conf
 *.xml
 *.properties
+*.flag
+.generated_files/
+*.mk

@@ -1,0 +1,7 @@
+s = Demo Sonido Sword en Celular
+e = Ejecutar sonido Demo
+g = Sound Press On
+f = Sound Press Off
+o = Demo Off
+d = Demo On
+a = Boton 1 apretado
